@@ -1,6 +1,7 @@
 package dev.trodrigues.ead.authuser.controllers
 
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
+import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toResponse
@@ -34,6 +35,11 @@ class UserController(
     @PatchMapping("/{userId}/password")
     fun updatePassword(@PathVariable userId: UUID, @RequestBody request: PatchPasswordRequest) {
         userService.updatePassword(userId, request)
+    }
+
+    @PatchMapping("/{userId}/avatar")
+    fun updateAvatar(@PathVariable userId: UUID, @RequestBody request: PatchUserAvatarRequest) {
+        userService.updateAvatar(userId, request)
     }
 
     @DeleteMapping("/{userId}")

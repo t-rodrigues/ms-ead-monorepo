@@ -1,6 +1,7 @@
 package dev.trodrigues.ead.authuser.services.impl
 
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
+import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.models.UserModel
@@ -45,7 +46,12 @@ class UserServiceImpl(
         if (oldUser.password != patchPasswordRequest.oldPassword) {
             throw ConflictException("Old password does not match")
         }
-        userRepository.save(oldUser.copy(password = patchPasswordRequest.password))
+        userRepository.save(patchPasswordRequest.toModel(oldUser))
+    }
+
+    override fun updateAvatar(userId: UUID, patchUserAvatarRequest: PatchUserAvatarRequest) {
+        val oldUser = findById(userId)
+        userRepository.save(patchUserAvatarRequest.toModel(oldUser))
     }
 
     private fun checkIfExistsByUsername(username: String) {
