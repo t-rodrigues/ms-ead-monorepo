@@ -25,7 +25,7 @@ fun UserModel.toResponse(): UserResponse = UserResponse(
 )
 
 fun PostUserRequest.toModel(): UserModel = UserModel(
-    username = this.username,
+    username = this.username!!,
     email = this.email,
     password = this.password,
     fullName = this.fullName,

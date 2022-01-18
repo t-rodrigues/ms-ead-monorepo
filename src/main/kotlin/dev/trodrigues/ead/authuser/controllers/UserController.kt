@@ -9,6 +9,7 @@ import dev.trodrigues.ead.authuser.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/users")
@@ -28,17 +29,17 @@ class UserController(
     }
 
     @PutMapping("/{userId}")
-    fun updateUser(@PathVariable userId: UUID, @RequestBody request: PutUserRequest): UserResponse {
+    fun updateUser(@PathVariable userId: UUID, @RequestBody @Valid request: PutUserRequest): UserResponse {
         return userService.update(userId, request).toResponse()
     }
 
     @PatchMapping("/{userId}/password")
-    fun updatePassword(@PathVariable userId: UUID, @RequestBody request: PatchPasswordRequest) {
+    fun updatePassword(@PathVariable userId: UUID, @RequestBody @Valid request: PatchPasswordRequest) {
         userService.updatePassword(userId, request)
     }
 
     @PatchMapping("/{userId}/avatar")
-    fun updateAvatar(@PathVariable userId: UUID, @RequestBody request: PatchUserAvatarRequest) {
+    fun updateAvatar(@PathVariable userId: UUID, @RequestBody @Valid request: PatchUserAvatarRequest) {
         userService.updateAvatar(userId, request)
     }
 

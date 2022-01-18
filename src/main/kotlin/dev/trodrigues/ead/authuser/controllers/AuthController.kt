@@ -6,6 +6,7 @@ import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.extension.toResponse
 import dev.trodrigues.ead.authuser.services.UserService
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/auth")
@@ -15,7 +16,7 @@ class AuthController(
 ) {
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody request: PostUserRequest): UserResponse {
+    fun signUp(@RequestBody @Valid request: PostUserRequest): UserResponse {
         return userService.register(request.toModel()).toResponse()
     }
 
