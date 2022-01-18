@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.authuser.controllers
 
+import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toResponse
 import dev.trodrigues.ead.authuser.services.UserService
@@ -22,6 +23,11 @@ class UserController(
     @GetMapping("/{userId}")
     fun getUserById(@PathVariable userId: UUID): UserResponse {
         return userService.findById(userId).toResponse()
+    }
+
+    @PutMapping("/{userId}")
+    fun updateUser(@PathVariable userId: UUID, @RequestBody request: PutUserRequest): UserResponse {
+        return userService.update(userId, request).toResponse()
     }
 
     @DeleteMapping("/{userId}")

@@ -1,5 +1,7 @@
 package dev.trodrigues.ead.authuser.services.impl
 
+import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
+import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.models.UserModel
 import dev.trodrigues.ead.authuser.repositories.UserRepository
 import dev.trodrigues.ead.authuser.services.UserService
@@ -27,13 +29,26 @@ class UserServiceImpl(
     }
 
     override fun register(userModel: UserModel): UserModel {
-        if (userRepository.existsByUsername(userModel.username)) {
+        checkIfExistsByUsername(userModel.username)
+        checkIfExistsByEmail(userModel.email)
+        return userRepository.save(userModel)
+    }
+
+    override fun update(userId: UUID, putUserRequest: PutUserRequest): UserModel {
+        val oldUser = findById(userId)
+        return userRepository.save(putUserRequest.toModel(oldUser))
+    }
+
+    private fun checkIfExistsByUsername(username: String) {
+        if (userRepository.existsByUsername(username)) {
             throw ConflictException("Username already taken by another user")
         }
-        if (userRepository.existsByEmail(userModel.email)) {
+    }
+
+    private fun checkIfExistsByEmail(email: String) {
+        if (userRepository.existsByEmail(email)) {
             throw ConflictException("Email already taken by another user")
         }
-        return userRepository.save(userModel)
     }
 
 }

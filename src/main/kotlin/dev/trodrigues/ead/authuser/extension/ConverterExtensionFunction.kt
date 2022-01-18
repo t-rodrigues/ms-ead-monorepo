@@ -1,10 +1,13 @@
 package dev.trodrigues.ead.authuser.extension
 
 import dev.trodrigues.ead.authuser.controllers.requests.PostUserRequest
+import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.models.UserModel
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 fun UserModel.toResponse(): UserResponse = UserResponse(
     id = this.id,
@@ -29,3 +32,11 @@ fun PostUserRequest.toModel(): UserModel = UserModel(
     cpf = this.cpf,
     phoneNumber = phoneNumber
 )
+
+fun PutUserRequest.toModel(previousValue: UserModel): UserModel =
+    previousValue.copy(
+        cpf = this.cpf ?: previousValue.cpf,
+        fullName = this.fullName ?: previousValue.fullName,
+        phoneNumber = this.phoneNumber ?: previousValue.phoneNumber,
+        lastUpdatedDate = LocalDateTime.now(ZoneId.of("UTC"))
+    )
