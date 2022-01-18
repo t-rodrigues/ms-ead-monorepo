@@ -3,6 +3,7 @@ package dev.trodrigues.ead.authuser.controllers.responses
 import com.fasterxml.jackson.annotation.JsonInclude
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.authuser.enums.UserType
+import java.time.LocalDateTime
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -17,4 +18,6 @@ data class UserResponse(
     val cpf: String,
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
+    val creationDate: LocalDateTime? = null,
+    val lastUpdatedDate: LocalDateTime? = null
 )

@@ -6,4 +6,10 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<UserModel, UUID> {}
+interface UserRepository : JpaRepository<UserModel, UUID> {
+
+    fun existsByUsername(username: String): Boolean
+
+    fun existsByEmail(email: String): Boolean
+
+}

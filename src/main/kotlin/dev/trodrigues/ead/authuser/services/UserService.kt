@@ -11,4 +11,6 @@ interface UserService {
 
     fun delete(userId: UUID)
 
+    fun register(userModel: UserModel): UserModel
+
 }

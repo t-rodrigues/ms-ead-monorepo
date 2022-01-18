@@ -3,6 +3,7 @@ package dev.trodrigues.ead.authuser.models
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.authuser.enums.UserType
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 import javax.persistence.*
 
@@ -22,7 +23,7 @@ data class UserModel(
     val cpf: String,
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
-    val creationDate: LocalDateTime? = LocalDateTime.now(),
-    val lastUpdatedDate: LocalDateTime? = null
+    val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
+    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC"))
 
 )
