@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.authuser.services.impl
 
+import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.models.UserModel
@@ -37,6 +38,14 @@ class UserServiceImpl(
     override fun update(userId: UUID, putUserRequest: PutUserRequest): UserModel {
         val oldUser = findById(userId)
         return userRepository.save(putUserRequest.toModel(oldUser))
+    }
+
+    override fun updatePassword(userId: UUID, patchPasswordRequest: PatchPasswordRequest) {
+        val oldUser = findById(userId)
+        if (oldUser.password != patchPasswordRequest.oldPassword) {
+            throw ConflictException("Old password does not match")
+        }
+        userRepository.save(oldUser.copy(password = patchPasswordRequest.password))
     }
 
     private fun checkIfExistsByUsername(username: String) {
