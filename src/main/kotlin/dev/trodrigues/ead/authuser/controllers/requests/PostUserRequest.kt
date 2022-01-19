@@ -1,11 +1,13 @@
 package dev.trodrigues.ead.authuser.controllers.requests
 
+import dev.trodrigues.ead.authuser.validation.UsernameConstraint
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 data class PostUserRequest(
     @field:NotBlank
+    @field:UsernameConstraint
     val username: String = "",
 
     @field:NotBlank
