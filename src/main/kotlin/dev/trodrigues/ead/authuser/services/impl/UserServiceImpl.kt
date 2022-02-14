@@ -11,6 +11,7 @@ import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
 import dev.trodrigues.ead.authuser.services.exceptions.ObjectNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -19,8 +20,8 @@ class UserServiceImpl(
     private val userRepository: UserRepository
 ) : UserService {
 
-    override fun findAll(pageable: Pageable): Page<UserModel> {
-        return userRepository.findAll(pageable)
+    override fun findAll(spec: Specification<UserModel>?, pageable: Pageable): Page<UserModel> {
+        return userRepository.findAll(spec, pageable)
     }
 
     override fun findById(userId: UUID): UserModel {

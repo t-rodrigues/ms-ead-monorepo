@@ -6,11 +6,12 @@ import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.models.UserModel
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import java.util.*
 
 interface UserService {
 
-    fun findAll(pageable: Pageable): Page<UserModel>
+    fun findAll(spec: Specification<UserModel>?, pageable: Pageable): Page<UserModel>
 
     fun findById(userId: UUID): UserModel
 

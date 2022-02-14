@@ -8,6 +8,7 @@ import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
 import dev.trodrigues.ead.authuser.extension.toResponse
 import dev.trodrigues.ead.authuser.services.UserService
+import dev.trodrigues.ead.authuser.specifications.SpecificationTemplate
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -26,9 +27,10 @@ class UserController(
     fun getUsers(
         @PageableDefault(
             page = 0, size = 15, sort = ["fullName"]
-        ) pageable: Pageable
+        ) pageable: Pageable,
+        spec: SpecificationTemplate.UserSpec? = null
     ): PageResponse<UserResponse> {
-        return userService.findAll(pageable).map { it.toResponse() }.toPageResponse()
+        return userService.findAll(spec, pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{userId}")
