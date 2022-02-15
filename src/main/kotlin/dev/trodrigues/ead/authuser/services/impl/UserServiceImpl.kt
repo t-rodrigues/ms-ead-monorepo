@@ -20,7 +20,7 @@ class UserServiceImpl(
     private val userRepository: UserRepository
 ) : UserService {
 
-    override fun findAll(spec: Specification<UserModel>?, pageable: Pageable): Page<UserModel> {
+    override fun findAll(spec: Specification<UserModel>, pageable: Pageable): Page<UserModel> {
         return userRepository.findAll(spec, pageable)
     }
 

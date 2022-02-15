@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.authuser.controllers.responses
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.authuser.enums.UserType
@@ -18,6 +19,9 @@ data class UserResponse(
     val cpf: String,
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     val creationDate: LocalDateTime? = null,
+    @JsonFormat(pattern = "yyyy-MM-dd")
     val lastUpdatedDate: LocalDateTime? = null
 )

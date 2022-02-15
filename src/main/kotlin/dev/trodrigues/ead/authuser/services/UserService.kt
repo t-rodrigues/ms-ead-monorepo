@@ -11,7 +11,7 @@ import java.util.*
 
 interface UserService {
 
-    fun findAll(spec: Specification<UserModel>?, pageable: Pageable): Page<UserModel>
+    fun findAll(spec: Specification<UserModel>, pageable: Pageable): Page<UserModel>
 
     fun findById(userId: UUID): UserModel
 

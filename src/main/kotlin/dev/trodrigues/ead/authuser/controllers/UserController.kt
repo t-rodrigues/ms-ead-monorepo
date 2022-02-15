@@ -3,12 +3,13 @@ package dev.trodrigues.ead.authuser.controllers
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
+import dev.trodrigues.ead.authuser.controllers.requests.UserFilter
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
 import dev.trodrigues.ead.authuser.extension.toResponse
 import dev.trodrigues.ead.authuser.services.UserService
-import dev.trodrigues.ead.authuser.specifications.SpecificationTemplate
+import dev.trodrigues.ead.authuser.specifications.UserSpecification
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -28,9 +29,9 @@ class UserController(
         @PageableDefault(
             page = 0, size = 15, sort = ["fullName"]
         ) pageable: Pageable,
-        spec: SpecificationTemplate.UserSpec? = null
+        filter: UserFilter
     ): PageResponse<UserResponse> {
-        return userService.findAll(spec, pageable).map { it.toResponse() }.toPageResponse()
+        return userService.findAll(UserSpecification.users(filter), pageable).map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{userId}")
