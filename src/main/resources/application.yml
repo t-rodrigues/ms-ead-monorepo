@@ -1,2 +1,16 @@
 server:
   port: 8082
+
+spring:
+  datasource:
+    url: ${COURSE_DATABASE_URL}
+    username: ${COURSE_DATABASE_USER}
+    password: ${COURSE_DATABASE_PASSWORD}
+  jpa:
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        jdbc:
+          lob:
+            non-contextual-creation: true
+        show_sql: true
