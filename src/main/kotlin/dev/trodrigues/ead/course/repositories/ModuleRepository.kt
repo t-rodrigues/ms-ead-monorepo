@@ -2,6 +2,12 @@ package dev.trodrigues.ead.course.repositories
 
 import dev.trodrigues.ead.course.models.ModuleModel
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import java.util.UUID
 
-interface ModuleRepository : JpaRepository<ModuleModel, UUID>
+interface ModuleRepository : JpaRepository<ModuleModel, UUID> {
+
+    @Query("select * from tb_modules where course_id = :courseId", nativeQuery = true)
+    fun findAllModulesIntoCourse(courseId: UUID): List<ModuleModel>
+
+}
