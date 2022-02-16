@@ -2,6 +2,8 @@ package dev.trodrigues.ead.course.models
 
 import dev.trodrigues.ead.course.enums.CourseLevel
 import dev.trodrigues.ead.course.enums.CourseStatus
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
@@ -24,6 +26,7 @@ data class CourseModel(
     val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
     val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
     @OneToMany(mappedBy = "course")
+    @Fetch(FetchMode.SUBSELECT)
     val modules: Set<ModuleModel> = mutableSetOf()
 
 )

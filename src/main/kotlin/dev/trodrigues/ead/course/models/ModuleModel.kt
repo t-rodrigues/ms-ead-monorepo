@@ -1,5 +1,7 @@
 package dev.trodrigues.ead.course.models
 
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.persistence.*
@@ -16,6 +18,7 @@ data class ModuleModel(
     @ManyToOne(fetch = FetchType.LAZY)
     val course: CourseModel,
     @OneToMany(mappedBy = "module")
+    @Fetch(FetchMode.SUBSELECT)
     val lessons: Set<LessonModel> = mutableSetOf()
 
 )
