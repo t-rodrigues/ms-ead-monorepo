@@ -2,10 +2,7 @@ package dev.trodrigues.ead.course.models
 
 import java.time.LocalDateTime
 import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "tb_lessons")
 data class LessonModel(
@@ -16,6 +13,8 @@ data class LessonModel(
     val title: String,
     val description: String,
     val videoUrl: String? = null,
-    val creationDate: LocalDateTime
+    val creationDate: LocalDateTime,
+    @ManyToOne(fetch = FetchType.LAZY)
+    val module: ModuleModel
 
 )

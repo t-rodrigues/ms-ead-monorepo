@@ -22,6 +22,8 @@ data class CourseModel(
     val userInstructor: UUID,
     val imageUrl: String? = null,
     val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
-    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC"))
+    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
+    @OneToMany(mappedBy = "course")
+    val modules: Set<ModuleModel> = mutableSetOf()
 
 )

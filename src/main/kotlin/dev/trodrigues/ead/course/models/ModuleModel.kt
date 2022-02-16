@@ -2,10 +2,7 @@ package dev.trodrigues.ead.course.models
 
 import java.time.LocalDateTime
 import java.util.UUID
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "tb_modules")
 data class ModuleModel(
@@ -15,6 +12,10 @@ data class ModuleModel(
     val id: UUID,
     val title: String,
     val description: String,
-    val creationDate: LocalDateTime? = LocalDateTime.now()
+    val creationDate: LocalDateTime? = LocalDateTime.now(),
+    @ManyToOne(fetch = FetchType.LAZY)
+    val course: CourseModel,
+    @OneToMany(mappedBy = "module")
+    val lessons: Set<LessonModel> = mutableSetOf()
 
 )
