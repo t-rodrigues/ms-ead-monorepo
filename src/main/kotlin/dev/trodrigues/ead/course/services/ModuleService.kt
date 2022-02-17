@@ -1,3 +1,9 @@
 package dev.trodrigues.ead.course.services
 
-interface ModuleService {}
+import dev.trodrigues.ead.course.models.ModuleModel
+
+interface ModuleService {
+
+    fun delete(moduleModel: ModuleModel)
+
+}
