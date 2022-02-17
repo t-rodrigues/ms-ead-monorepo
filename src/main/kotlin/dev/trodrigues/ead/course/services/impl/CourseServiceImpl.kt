@@ -1,6 +1,8 @@
 package dev.trodrigues.ead.course.services.impl
 
+import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
 import dev.trodrigues.ead.course.enums.Errors
+import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.repositories.CourseRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
@@ -34,6 +36,18 @@ class CourseServiceImpl(
         courseRepository.delete(courseModel)
     }
 
+    @Transactional
     override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
+
+    @Transactional
+    override fun update(courseId: UUID, coursePutRequest: CoursePutRequest): CourseModel {
+        val oldCourse = findById(courseId)
+        val updatedCourse = coursePutRequest.toCourseModel(oldCourse)
+        return courseRepository.save(updatedCourse)
+    }
+
+    override fun findById(courseId: UUID): CourseModel {
+        return courseRepository.findById(courseId).orElseThrow { NotFoundException("Course not found: $courseId") }
+    }
 
 }
