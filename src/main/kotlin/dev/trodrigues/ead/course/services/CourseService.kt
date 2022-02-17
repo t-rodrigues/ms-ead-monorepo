@@ -6,12 +6,14 @@ import java.util.*
 
 interface CourseService {
 
-    fun delete(courseId: UUID)
+    fun getCourses(): List<CourseModel>
 
     fun create(courseModel: CourseModel): CourseModel
 
     fun update(courseId: UUID, coursePutRequest: CoursePutRequest): CourseModel
 
     fun findById(courseId: UUID): CourseModel
+
+    fun delete(courseId: UUID)
 
 }

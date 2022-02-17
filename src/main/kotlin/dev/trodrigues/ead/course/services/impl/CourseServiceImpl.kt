@@ -20,6 +20,21 @@ class CourseServiceImpl(
     private val lessonRepository: LessonRepository
 ) : CourseService {
 
+    @Transactional(readOnly = true)
+    override fun getCourses(): List<CourseModel> {
+        return courseRepository.findAll()
+    }
+
+    @Transactional
+    override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
+
+    @Transactional
+    override fun update(courseId: UUID, coursePutRequest: CoursePutRequest): CourseModel {
+        val oldCourse = findById(courseId)
+        val updatedCourse = coursePutRequest.toCourseModel(oldCourse)
+        return courseRepository.save(updatedCourse)
+    }
+
     @Transactional
     override fun delete(courseId: UUID) {
         val courseModel =
@@ -34,16 +49,6 @@ class CourseServiceImpl(
             moduleRepository.deleteAll(modules)
         }
         courseRepository.delete(courseModel)
-    }
-
-    @Transactional
-    override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
-
-    @Transactional
-    override fun update(courseId: UUID, coursePutRequest: CoursePutRequest): CourseModel {
-        val oldCourse = findById(courseId)
-        val updatedCourse = coursePutRequest.toCourseModel(oldCourse)
-        return courseRepository.save(updatedCourse)
     }
 
     override fun findById(courseId: UUID): CourseModel {

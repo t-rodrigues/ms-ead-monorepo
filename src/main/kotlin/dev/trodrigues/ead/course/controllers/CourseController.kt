@@ -21,6 +21,11 @@ class CourseController(
     private val courseService: CourseService
 ) {
 
+    @GetMapping
+    fun getCourses(): List<CourseResponse> {
+        return courseService.getCourses().map { it.toResponse() }
+    }
+
     @PostMapping
     fun saveCourse(@Valid @RequestBody coursePostRequest: CoursePostRequest): ResponseEntity<CourseResponse> {
         val course = courseService.create(coursePostRequest.toCourseModel())
