@@ -5,7 +5,6 @@ import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.extension.toResponse
-import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.services.CourseService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,6 +25,11 @@ class CourseController(
         return courseService.getCourses().map { it.toResponse() }
     }
 
+    @GetMapping("/{courseId}")
+    fun getCourseById(@PathVariable courseId: UUID): CourseResponse {
+        return courseService.getCourseById(courseId).toResponse()
+    }
+
     @PostMapping
     fun saveCourse(@Valid @RequestBody coursePostRequest: CoursePostRequest): ResponseEntity<CourseResponse> {
         val course = courseService.create(coursePostRequest.toCourseModel())
@@ -37,8 +41,8 @@ class CourseController(
     fun updateCourse(
         @PathVariable courseId: UUID,
         @Valid @RequestBody coursePutRequest: CoursePutRequest
-    ): CourseModel {
-        return courseService.update(courseId, coursePutRequest)
+    ): CourseResponse {
+        return courseService.update(courseId, coursePutRequest).toResponse()
     }
 
     @DeleteMapping("/{courseId}")

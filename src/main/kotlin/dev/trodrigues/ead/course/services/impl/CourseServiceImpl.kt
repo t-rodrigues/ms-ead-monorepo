@@ -25,12 +25,18 @@ class CourseServiceImpl(
         return courseRepository.findAll()
     }
 
+    @Transactional(readOnly = true)
+    override fun getCourseById(courseId: UUID): CourseModel {
+        return courseRepository.findById(courseId).orElseThrow { NotFoundException("Course not found: $courseId") }
+    }
+
+
     @Transactional
     override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
 
     @Transactional
     override fun update(courseId: UUID, coursePutRequest: CoursePutRequest): CourseModel {
-        val oldCourse = findById(courseId)
+        val oldCourse = getCourseById(courseId)
         val updatedCourse = coursePutRequest.toCourseModel(oldCourse)
         return courseRepository.save(updatedCourse)
     }
@@ -49,10 +55,6 @@ class CourseServiceImpl(
             moduleRepository.deleteAll(modules)
         }
         courseRepository.delete(courseModel)
-    }
-
-    override fun findById(courseId: UUID): CourseModel {
-        return courseRepository.findById(courseId).orElseThrow { NotFoundException("Course not found: $courseId") }
     }
 
 }
