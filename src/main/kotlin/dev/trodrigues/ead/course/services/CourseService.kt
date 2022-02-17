@@ -6,4 +6,6 @@ interface CourseService {
 
     fun delete(courseModel: CourseModel)
 
+    fun create(courseModel: CourseModel): CourseModel
+
 }

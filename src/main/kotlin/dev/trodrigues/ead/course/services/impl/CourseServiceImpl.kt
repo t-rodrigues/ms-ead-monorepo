@@ -5,9 +5,11 @@ import dev.trodrigues.ead.course.repositories.CourseRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
 import dev.trodrigues.ead.course.services.CourseService
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-open class CourseServiceImpl(
+@Service
+class CourseServiceImpl(
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
     private val lessonRepository: LessonRepository
@@ -26,5 +28,7 @@ open class CourseServiceImpl(
         }
         courseRepository.delete(courseModel)
     }
+
+    override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
 
 }
