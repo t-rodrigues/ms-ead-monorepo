@@ -1,11 +1,11 @@
 package dev.trodrigues.ead.course.extension
 
-import dev.trodrigues.ead.course.controllers.requests.CourseRequest
+import dev.trodrigues.ead.course.controllers.requests.CoursePostRequest
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
 import dev.trodrigues.ead.course.models.CourseModel
 import java.time.LocalDateTime
 
-fun CourseRequest.toCourseModel(): CourseModel = CourseModel(
+fun CoursePostRequest.toCourseModel(): CourseModel = CourseModel(
     name = this.name!!,
     description = this.description!!,
     courseLevel = this.courseLevel!!,

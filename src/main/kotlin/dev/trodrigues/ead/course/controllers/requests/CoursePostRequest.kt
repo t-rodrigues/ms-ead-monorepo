@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
-data class CourseRequest(
+data class CoursePostRequest(
 
     @field:NotBlank
     @field:Size(max = 150)

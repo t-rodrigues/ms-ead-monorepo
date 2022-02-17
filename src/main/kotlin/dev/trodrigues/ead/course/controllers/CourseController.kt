@@ -1,6 +1,6 @@
 package dev.trodrigues.ead.course.controllers
 
-import dev.trodrigues.ead.course.controllers.requests.CourseRequest
+import dev.trodrigues.ead.course.controllers.requests.CoursePostRequest
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.extension.toResponse
@@ -20,8 +20,8 @@ class CourseController(
 ) {
 
     @PostMapping
-    fun saveCourse(@Valid @RequestBody courseRequest: CourseRequest): ResponseEntity<CourseResponse> {
-        val course = courseService.create(courseRequest.toCourseModel())
+    fun saveCourse(@Valid @RequestBody coursePostRequest: CoursePostRequest): ResponseEntity<CourseResponse> {
+        val course = courseService.create(coursePostRequest.toCourseModel())
         val uri = URI("/courses/${course.id!!}")
         return ResponseEntity.created(uri).body(course.toResponse())
     }
