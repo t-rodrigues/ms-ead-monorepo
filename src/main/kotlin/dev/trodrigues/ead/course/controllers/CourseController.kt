@@ -5,9 +5,11 @@ import dev.trodrigues.ead.course.controllers.responses.CourseResponse
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.services.CourseService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -22,6 +24,12 @@ class CourseController(
         val course = courseService.create(courseRequest.toCourseModel())
         val uri = URI("/courses/${course.id!!}")
         return ResponseEntity.created(uri).body(course.toResponse())
+    }
+
+    @DeleteMapping("/{courseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteCourse(@PathVariable courseId: UUID) {
+        courseService.delete(courseId)
     }
 
 }

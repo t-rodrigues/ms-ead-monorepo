@@ -1,12 +1,15 @@
 package dev.trodrigues.ead.course.services.impl
 
+import dev.trodrigues.ead.course.enums.Errors
 import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.repositories.CourseRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
 import dev.trodrigues.ead.course.services.CourseService
+import dev.trodrigues.ead.course.services.exceptions.NotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class CourseServiceImpl(
@@ -16,7 +19,9 @@ class CourseServiceImpl(
 ) : CourseService {
 
     @Transactional
-    override fun delete(courseModel: CourseModel) {
+    override fun delete(courseId: UUID) {
+        val courseModel =
+            courseRepository.findById(courseId).orElseThrow { NotFoundException(Errors.NOT_FOUND.message) }
         val modules = moduleRepository.findAllModulesIntoCourse(courseModel.id!!)
         if (modules.isNotEmpty()) {
             modules.forEach {
