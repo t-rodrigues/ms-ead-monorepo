@@ -31,4 +31,9 @@ class ModuleController(
         return ResponseEntity.created(uri).body(module.toResponse())
     }
 
+    @DeleteMapping("/{moduleId}")
+    fun deleteModule(@PathVariable courseId: UUID, @PathVariable moduleId: UUID) {
+        moduleService.delete(courseId, moduleId)
+    }
+
 }
