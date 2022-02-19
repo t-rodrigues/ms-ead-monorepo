@@ -3,6 +3,7 @@ package dev.trodrigues.ead.course.extension
 import dev.trodrigues.ead.course.controllers.requests.CoursePostRequest
 import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
 import dev.trodrigues.ead.course.controllers.requests.ModulePostRequest
+import dev.trodrigues.ead.course.controllers.requests.ModulePutRequest
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
 import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
 import dev.trodrigues.ead.course.models.CourseModel
@@ -54,3 +55,10 @@ fun ModuleModel.toResponse(): ModuleResponse = ModuleResponse(
     description = this.description,
     creationDate = this.creationDate!!
 )
+
+fun ModulePutRequest.toModel(previousValue: ModuleModel): ModuleModel {
+    return previousValue.copy(
+        title = this.title!!,
+        description = this.description!!
+    )
+}

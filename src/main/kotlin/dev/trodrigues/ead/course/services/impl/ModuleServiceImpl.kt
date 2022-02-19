@@ -11,17 +11,24 @@ import java.util.*
 
 @Service
 class ModuleServiceImpl(
-    private val moduleRepository: ModuleRepository,
-    private val lessonRepository: LessonRepository
+    private val moduleRepository: ModuleRepository, private val lessonRepository: LessonRepository
 ) : ModuleService {
+
+    @Transactional(readOnly = true)
+    override fun getModuleIntoCourse(courseId: UUID, moduleId: UUID): ModuleModel {
+        return moduleRepository.findModuleIntoCourse(courseId, moduleId)
+            .orElseThrow { NotFoundException("Module not found for this course: [$courseId]") }
+    }
 
     @Transactional
     override fun create(moduleModel: ModuleModel): ModuleModel = moduleRepository.save(moduleModel)
 
     @Transactional
+    override fun update(moduleModel: ModuleModel): ModuleModel = moduleRepository.save(moduleModel)
+
+    @Transactional
     override fun delete(courseId: UUID, moduleId: UUID) {
-        val module = moduleRepository.findModuleIntoCourse(courseId, moduleId)
-            .orElseThrow { NotFoundException("Module not found for this course: [$courseId]") }
+        val module = getModuleIntoCourse(courseId, moduleId)
         val lessons = lessonRepository.findAllLessonsIntoModule(module.id!!)
         if (lessons.isNotEmpty()) {
             lessonRepository.deleteAll(lessons)

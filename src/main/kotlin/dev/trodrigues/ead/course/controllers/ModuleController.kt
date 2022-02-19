@@ -1,6 +1,7 @@
 package dev.trodrigues.ead.course.controllers
 
 import dev.trodrigues.ead.course.controllers.requests.ModulePostRequest
+import dev.trodrigues.ead.course.controllers.requests.ModulePutRequest
 import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
 import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.extension.toResponse
@@ -29,6 +30,18 @@ class ModuleController(
         val module = moduleService.create(modulePostRequest.toModel(course))
         val uri = URI("/courses/$courseId/modules/${module.id}")
         return ResponseEntity.created(uri).body(module.toResponse())
+    }
+
+    @PutMapping("/{moduleId}")
+    fun updateModule(
+        @PathVariable courseId: UUID,
+        @PathVariable moduleId: UUID,
+        @Valid @RequestBody modulePutRequest: ModulePutRequest
+    ): ModuleResponse {
+        val oldModule = moduleService.getModuleIntoCourse(courseId, moduleId)
+        val updatedModule = moduleService.update(modulePutRequest.toModel(oldModule))
+
+        return updatedModule.toResponse()
     }
 
     @DeleteMapping("/{moduleId}")
