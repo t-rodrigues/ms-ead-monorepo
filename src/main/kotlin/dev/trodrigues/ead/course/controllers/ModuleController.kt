@@ -26,9 +26,9 @@ class ModuleController(
         @Valid @RequestBody modulePostRequest: ModulePostRequest
     ): ResponseEntity<ModuleResponse> {
         val course = courseService.getCourseById(courseId)
-        val module = moduleService.create(modulePostRequest.toModel(course)).toResponse()
+        val module = moduleService.create(modulePostRequest.toModel(course))
         val uri = URI("/courses/$courseId/modules/${module.id}")
-        return ResponseEntity.created(uri).body(module)
+        return ResponseEntity.created(uri).body(module.toResponse())
     }
 
 }
