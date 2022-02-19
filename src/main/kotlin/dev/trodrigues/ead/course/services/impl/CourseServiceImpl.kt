@@ -27,9 +27,9 @@ class CourseServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getCourseById(courseId: UUID): CourseModel {
-        return courseRepository.findById(courseId).orElseThrow { NotFoundException("Course not found: $courseId") }
+        return courseRepository.findById(courseId)
+            .orElseThrow { NotFoundException(Errors.NOT_FOUND.message.format("Course", courseId)) }
     }
-
 
     @Transactional
     override fun create(courseModel: CourseModel): CourseModel = courseRepository.save(courseModel)
