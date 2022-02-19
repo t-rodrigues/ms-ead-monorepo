@@ -14,6 +14,9 @@ class ModuleServiceImpl(
 ) : ModuleService {
 
     @Transactional
+    override fun create(moduleModel: ModuleModel): ModuleModel = moduleRepository.save(moduleModel)
+
+    @Transactional
     override fun delete(moduleModel: ModuleModel) {
         val lessons = lessonRepository.findAllLessonsIntoModule(moduleModel.id!!)
         if (lessons.isNotEmpty()) {

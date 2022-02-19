@@ -48,7 +48,7 @@ class CourseServiceImpl(
         val modules = moduleRepository.findAllModulesIntoCourse(courseModel.id!!)
         if (modules.isNotEmpty()) {
             modules.forEach {
-                val lessons = lessonRepository.findAllLessonsIntoModule(it.id)
+                val lessons = lessonRepository.findAllLessonsIntoModule(it.id!!)
                 if (lessons.isNotEmpty())
                     lessonRepository.deleteAll(lessons)
             }
