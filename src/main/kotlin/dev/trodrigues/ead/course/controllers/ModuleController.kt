@@ -27,6 +27,15 @@ class ModuleController(
         return modules.map { it.toResponse() }
     }
 
+    @GetMapping("/{moduleId}")
+    fun getModule(
+        @PathVariable courseId: UUID,
+        @PathVariable moduleId: UUID
+    ): ModuleResponse {
+        val module = moduleService.getModuleIntoCourse(courseId, moduleId)
+        return module.toResponse()
+    }
+
     @PostMapping
     fun saveModule(
         @PathVariable courseId: UUID,
@@ -46,7 +55,6 @@ class ModuleController(
     ): ModuleResponse {
         val oldModule = moduleService.getModuleIntoCourse(courseId, moduleId)
         val updatedModule = moduleService.update(modulePutRequest.toModel(oldModule))
-
         return updatedModule.toResponse()
     }
 
