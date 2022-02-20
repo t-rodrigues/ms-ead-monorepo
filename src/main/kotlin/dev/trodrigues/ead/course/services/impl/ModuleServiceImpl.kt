@@ -15,6 +15,11 @@ class ModuleServiceImpl(
 ) : ModuleService {
 
     @Transactional(readOnly = true)
+    override fun getModulesByCourse(courseId: UUID): List<ModuleModel> {
+        return moduleRepository.findAllModulesIntoCourse(courseId)
+    }
+
+    @Transactional(readOnly = true)
     override fun getModuleIntoCourse(courseId: UUID, moduleId: UUID): ModuleModel {
         return moduleRepository.findModuleIntoCourse(courseId, moduleId)
             .orElseThrow { NotFoundException("Module not found for this course: [$courseId]") }

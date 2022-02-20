@@ -21,6 +21,12 @@ class ModuleController(
     private val courseService: CourseService
 ) {
 
+    @GetMapping
+    fun getModules(@PathVariable courseId: UUID): List<ModuleResponse> {
+        val modules = moduleService.getModulesByCourse(courseId)
+        return modules.map { it.toResponse() }
+    }
+
     @PostMapping
     fun saveModule(
         @PathVariable courseId: UUID,

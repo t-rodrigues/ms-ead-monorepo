@@ -5,6 +5,8 @@ import java.util.*
 
 interface ModuleService {
 
+    fun getModulesByCourse(courseId: UUID): List<ModuleModel>
+
     fun getModuleIntoCourse(courseId: UUID, moduleId: UUID): ModuleModel
 
     fun create(moduleModel: ModuleModel): ModuleModel
