@@ -9,6 +9,8 @@ interface ModuleService {
 
     fun getModuleIntoCourse(courseId: UUID, moduleId: UUID): ModuleModel
 
+    fun getModuleById(moduleId: UUID): ModuleModel
+
     fun create(moduleModel: ModuleModel): ModuleModel
 
     fun update(moduleModel: ModuleModel): ModuleModel

@@ -1,12 +1,11 @@
 package dev.trodrigues.ead.course.extension
 
-import dev.trodrigues.ead.course.controllers.requests.CoursePostRequest
-import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
-import dev.trodrigues.ead.course.controllers.requests.ModulePostRequest
-import dev.trodrigues.ead.course.controllers.requests.ModulePutRequest
+import dev.trodrigues.ead.course.controllers.requests.*
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
+import dev.trodrigues.ead.course.controllers.responses.LessonResponse
 import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
 import dev.trodrigues.ead.course.models.CourseModel
+import dev.trodrigues.ead.course.models.LessonModel
 import dev.trodrigues.ead.course.models.ModuleModel
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -62,3 +61,18 @@ fun ModulePutRequest.toModel(previousValue: ModuleModel): ModuleModel {
         description = this.description!!
     )
 }
+
+fun LessonPostRequest.toModel(moduleModel: ModuleModel): LessonModel = LessonModel(
+    title = this.title!!,
+    description = this.description,
+    videoUrl = this.videoUrl!!,
+    creationDate = LocalDateTime.now(ZoneId.of("UTC")),
+    module = moduleModel
+)
+
+fun LessonModel.toResponse(): LessonResponse = LessonResponse(
+    id = this.id!!,
+    title = this.title,
+    description = this.description,
+    creationDate = this.creationDate
+)

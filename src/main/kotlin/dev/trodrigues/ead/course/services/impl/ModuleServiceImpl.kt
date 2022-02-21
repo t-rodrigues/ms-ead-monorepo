@@ -25,6 +25,11 @@ class ModuleServiceImpl(
             .orElseThrow { NotFoundException("Module not found for this course: [$courseId]") }
     }
 
+    @Transactional(readOnly = true)
+    override fun getModuleById(moduleId: UUID): ModuleModel {
+        return moduleRepository.findById(moduleId).orElseThrow { NotFoundException("Module not found: [$moduleId]") }
+    }
+
     @Transactional
     override fun create(moduleModel: ModuleModel): ModuleModel = moduleRepository.save(moduleModel)
 
