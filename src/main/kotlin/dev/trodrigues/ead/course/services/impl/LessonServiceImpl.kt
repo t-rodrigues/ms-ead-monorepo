@@ -14,6 +14,11 @@ class LessonServiceImpl(
 ) : LessonService {
 
     @Transactional(readOnly = true)
+    override fun getLessonsIntoModule(moduleId: UUID): List<LessonModel> {
+        return lessonRepository.findAllLessonsIntoModule(moduleId)
+    }
+
+    @Transactional(readOnly = true)
     override fun getLessonIntoModule(moduleId: UUID, lessonId: UUID): LessonModel {
         return lessonRepository.findLessonIntoModule(moduleId, lessonId).orElseThrow { NotFoundException("Lesson not found for this module: [$moduleId]") }
     }

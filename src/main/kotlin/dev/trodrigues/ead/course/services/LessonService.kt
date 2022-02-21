@@ -5,6 +5,8 @@ import java.util.*
 
 interface LessonService {
 
+    fun getLessonsIntoModule(moduleId: UUID): List<LessonModel>
+
     fun getLessonIntoModule(moduleId: UUID, lessonId: UUID): LessonModel
 
     fun createLesson(lessonModel: LessonModel): LessonModel
