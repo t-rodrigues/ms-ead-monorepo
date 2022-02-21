@@ -1,11 +1,17 @@
 package dev.trodrigues.ead.course.controllers
 
+import dev.trodrigues.ead.course.controllers.filters.CourseFilter
 import dev.trodrigues.ead.course.controllers.requests.CoursePostRequest
 import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
 import dev.trodrigues.ead.course.controllers.responses.CourseResponse
+import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.extension.toCourseModel
+import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.services.CourseService
+import dev.trodrigues.ead.course.specifications.CourseSpec
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -21,8 +27,12 @@ class CourseController(
 ) {
 
     @GetMapping
-    fun getCourses(): List<CourseResponse> {
-        return courseService.getCourses().map { it.toResponse() }
+    fun getCourses(
+        filter: CourseFilter,
+        @PageableDefault(size = 15, sort = ["creationDate"]) pageable: Pageable
+    ): PageResponse<CourseResponse> {
+        val courses = courseService.getCourses(CourseSpec.courses(filter), pageable)
+        return courses.map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{courseId}")
