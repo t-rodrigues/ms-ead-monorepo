@@ -1,6 +1,7 @@
 package dev.trodrigues.ead.course.controllers
 
 import dev.trodrigues.ead.course.controllers.requests.LessonPostRequest
+import dev.trodrigues.ead.course.controllers.requests.LessonPutRequest
 import dev.trodrigues.ead.course.controllers.responses.LessonResponse
 import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.extension.toResponse
@@ -22,11 +23,25 @@ class LessonController(
 ) {
 
     @PostMapping
-    fun saveLesson(@PathVariable moduleId: UUID, @Valid @RequestBody lessonPostRequest: LessonPostRequest): ResponseEntity<LessonResponse> {
+    fun saveLesson(
+        @PathVariable moduleId: UUID,
+        @Valid @RequestBody lessonPostRequest: LessonPostRequest
+    ): ResponseEntity<LessonResponse> {
         val module = moduleService.getModuleById(moduleId)
         val lesson = lessonService.createLesson(lessonPostRequest.toModel(module))
         val uri = URI("/modules/$moduleId/lessons/${lesson.id}")
         return ResponseEntity.created(uri).body(lesson.toResponse())
+    }
+
+    @PutMapping("/{lessonId}")
+    fun updateLesson(
+        @PathVariable moduleId: UUID,
+        @PathVariable lessonId: UUID,
+        @Valid @RequestBody lessonPutRequest: LessonPutRequest
+    ): LessonResponse {
+        val oldLesson = lessonService.getLessonIntoModule(moduleId, lessonId)
+        val updatedLesson = lessonService.update(lessonPutRequest.toModel(oldLesson))
+        return updatedLesson.toResponse()
     }
 
     @DeleteMapping("/{lessonId}")

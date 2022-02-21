@@ -76,3 +76,9 @@ fun LessonModel.toResponse(): LessonResponse = LessonResponse(
     description = this.description,
     creationDate = this.creationDate
 )
+
+fun LessonPutRequest.toModel(previousValue: LessonModel): LessonModel = previousValue.copy(
+    title = this.title!!,
+    description = this.description,
+    videoUrl = this.videoUrl!!
+)

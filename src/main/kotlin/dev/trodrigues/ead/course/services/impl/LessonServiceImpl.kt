@@ -13,12 +13,20 @@ class LessonServiceImpl(
     private val lessonRepository: LessonRepository
 ) : LessonService {
 
+    @Transactional(readOnly = true)
+    override fun getLessonIntoModule(moduleId: UUID, lessonId: UUID): LessonModel {
+        return lessonRepository.findLessonIntoModule(moduleId, lessonId).orElseThrow { NotFoundException("Lesson not found for this module: [$moduleId]") }
+    }
+
     @Transactional
     override fun createLesson(lessonModel: LessonModel): LessonModel = lessonRepository.save(lessonModel)
 
     @Transactional
+    override fun update(lessonModel: LessonModel): LessonModel = lessonRepository.save(lessonModel)
+
+    @Transactional
     override fun deleteLesson(moduleId: UUID, lessonId: UUID) {
-        val lesson = lessonRepository.findLessonIntoModule(moduleId, lessonId).orElseThrow { NotFoundException("Lesson not found for this module: [$moduleId]") }
+        val lesson = getLessonIntoModule(moduleId, lessonId)
         lessonRepository.delete(lesson)
     }
 
