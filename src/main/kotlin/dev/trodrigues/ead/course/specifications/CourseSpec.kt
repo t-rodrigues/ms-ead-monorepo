@@ -13,19 +13,19 @@ object CourseSpec {
 
             filter.name?.let {
                 predicates.add(
-                    criteriaBuilder.like(root.get("name"), "%$it%")
+                    criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%${it.uppercase()}%")
                 )
             }
 
             filter.courseLevel?.let {
                 predicates.add(
-                    criteriaBuilder.equal(root.get<String>("courseLevel"), it)
+                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("courseLevel")), it)
                 )
             }
 
             filter.courseStatus?.let {
                 predicates.add(
-                    criteriaBuilder.equal(root.get<String>("courseStatus"), it)
+                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("courseStatus")), it)
                 )
             }
 
