@@ -5,6 +5,9 @@ import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
 import dev.trodrigues.ead.course.services.ModuleService
 import dev.trodrigues.ead.course.services.exceptions.NotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -15,8 +18,8 @@ class ModuleServiceImpl(
 ) : ModuleService {
 
     @Transactional(readOnly = true)
-    override fun getModulesByCourse(courseId: UUID): List<ModuleModel> {
-        return moduleRepository.findAllModulesIntoCourse(courseId)
+    override fun getModulesByCourse(spec: Specification<ModuleModel>, pageable: Pageable): Page<ModuleModel> {
+        return moduleRepository.findAll(spec, pageable)
     }
 
     @Transactional(readOnly = true)

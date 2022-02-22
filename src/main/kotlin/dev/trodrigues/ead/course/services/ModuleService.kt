@@ -1,11 +1,14 @@
 package dev.trodrigues.ead.course.services
 
 import dev.trodrigues.ead.course.models.ModuleModel
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import java.util.*
 
 interface ModuleService {
 
-    fun getModulesByCourse(courseId: UUID): List<ModuleModel>
+    fun getModulesByCourse(spec: Specification<ModuleModel>, pageable: Pageable): Page<ModuleModel>
 
     fun getModuleIntoCourse(courseId: UUID, moduleId: UUID): ModuleModel
 

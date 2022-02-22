@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.course.controllers
 
+import dev.trodrigues.ead.course.controllers.filters.ModuleFilter
 import dev.trodrigues.ead.course.controllers.requests.ModulePostRequest
 import dev.trodrigues.ead.course.controllers.requests.ModulePutRequest
 import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
@@ -7,6 +8,10 @@ import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.ModuleService
+import dev.trodrigues.ead.course.specifications.ModuleSpec
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -22,8 +27,12 @@ class ModuleController(
 ) {
 
     @GetMapping
-    fun getModules(@PathVariable courseId: UUID): List<ModuleResponse> {
-        val modules = moduleService.getModulesByCourse(courseId)
+    fun getModules(
+        @PathVariable courseId: UUID,
+        filter: ModuleFilter,
+        @PageableDefault(size = 15, sort = ["creationDate"]) pageable: Pageable
+    ): Page<ModuleResponse> {
+        val modules = moduleService.getModulesByCourse(ModuleSpec.modules(courseId, filter), pageable)
         return modules.map { it.toResponse() }
     }
 
