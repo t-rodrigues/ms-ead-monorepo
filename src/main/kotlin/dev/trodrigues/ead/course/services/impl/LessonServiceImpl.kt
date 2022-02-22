@@ -4,6 +4,9 @@ import dev.trodrigues.ead.course.models.LessonModel
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.services.LessonService
 import dev.trodrigues.ead.course.services.exceptions.NotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -14,8 +17,8 @@ class LessonServiceImpl(
 ) : LessonService {
 
     @Transactional(readOnly = true)
-    override fun getLessonsIntoModule(moduleId: UUID): List<LessonModel> {
-        return lessonRepository.findAllLessonsIntoModule(moduleId)
+    override fun getLessonsIntoModule(spec: Specification<LessonModel>, pageable: Pageable): Page<LessonModel> {
+        return lessonRepository.findAll(spec, pageable)
     }
 
     @Transactional(readOnly = true)

@@ -1,12 +1,18 @@
 package dev.trodrigues.ead.course.controllers
 
+import dev.trodrigues.ead.course.controllers.filters.LessonFilter
 import dev.trodrigues.ead.course.controllers.requests.LessonPostRequest
 import dev.trodrigues.ead.course.controllers.requests.LessonPutRequest
 import dev.trodrigues.ead.course.controllers.responses.LessonResponse
+import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.extension.toModel
+import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.services.LessonService
 import dev.trodrigues.ead.course.services.ModuleService
+import dev.trodrigues.ead.course.specifications.LessonSpec
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -23,9 +29,13 @@ class LessonController(
 ) {
 
     @GetMapping
-    fun getLessonsByModule(@PathVariable moduleId: UUID): List<LessonResponse> {
-        val lessons = lessonService.getLessonsIntoModule(moduleId)
-        return lessons.map { it.toResponse() }
+    fun getLessonsByModule(
+        @PathVariable moduleId: UUID,
+        filter: LessonFilter,
+        @PageableDefault(size = 15, sort = ["creationDate"]) pageable: Pageable
+    ): PageResponse<LessonResponse> {
+        val lessons = lessonService.getLessonsIntoModule(LessonSpec.lessons(moduleId, filter), pageable)
+        return lessons.map { it.toResponse() }.toPageResponse()
     }
 
     @GetMapping("/{lessonId}")
