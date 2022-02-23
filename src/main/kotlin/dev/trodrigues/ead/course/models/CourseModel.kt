@@ -11,7 +11,6 @@ import javax.persistence.*
 
 @Entity(name = "tb_courses")
 data class CourseModel(
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: UUID? = null,
@@ -27,6 +26,7 @@ data class CourseModel(
     val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
     @OneToMany(mappedBy = "course")
     @Fetch(FetchMode.SUBSELECT)
-    val modules: Set<ModuleModel> = mutableSetOf()
-
+    val modules: Set<ModuleModel> = mutableSetOf(),
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    val coursesUsers: Set<CourseUserModel> = mutableSetOf()
 )
