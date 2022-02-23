@@ -3,7 +3,7 @@ package dev.trodrigues.ead.authuser.controllers
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
-import dev.trodrigues.ead.authuser.controllers.requests.UserFilter
+import dev.trodrigues.ead.authuser.controllers.requests.filters.UserFilter
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
