@@ -7,8 +7,6 @@ spring:
     username: ${AUTH_DATABASE_USER}
     password: ${AUTH_DATABASE_PASSWORD}
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate:
@@ -16,3 +14,5 @@ spring:
           lob:
             non-contextual-creation: true
         show_sql: true
+  jackson:
+    default-property-inclusion: non_null
