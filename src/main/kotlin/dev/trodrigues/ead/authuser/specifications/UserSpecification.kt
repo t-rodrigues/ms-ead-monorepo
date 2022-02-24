@@ -24,19 +24,19 @@ object UserSpecification {
 
             filter.userType?.let {
                 predicates.add(
-                    criteriaBuilder.equal(root.get<UserType>("userType"), filter.userType)
+                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("userType")), it)
                 )
             }
 
             filter.userStatus?.let {
                 predicates.add(
-                    criteriaBuilder.equal(root.get<UserStatus>("userStatus"), filter.userStatus)
+                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("userType")), it)
                 )
             }
 
             filter.email?.let {
                 predicates.add(
-                    criteriaBuilder.like(root.get("email"), "%${filter.email}%")
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%${it.lowercase()}%")
                 )
             }
 
