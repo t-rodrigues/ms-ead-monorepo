@@ -16,11 +16,11 @@ class UserCourseController(
 ) {
 
     @GetMapping("/users/{userId}/courses")
-    fun getAllCoursesByUser(
+    fun getCoursesByUser(
         @PathVariable userId: UUID,
         @PageableDefault(size = 10, sort = ["creationDate"]) pageable: Pageable
     ): PageResponse<CourseResponse> {
-        return userCourseService.getAllCoursesByUser(userId, pageable)
+        return userCourseService.getCoursesByUser(userId, pageable)
     }
 
 }

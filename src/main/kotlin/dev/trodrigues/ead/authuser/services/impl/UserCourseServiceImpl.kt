@@ -15,7 +15,7 @@ class UserCourseServiceImpl(
     private val userClient: UserClient
 ) : UserCourseService {
 
-    override fun getAllCoursesByUser(userId: UUID, pageable: Pageable): PageResponse<CourseResponse> {
+    override fun getCoursesByUser(userId: UUID, pageable: Pageable): PageResponse<CourseResponse> {
         val response = userClient.getCoursesByUser(userId, pageable)
         println(response.items)
         return response

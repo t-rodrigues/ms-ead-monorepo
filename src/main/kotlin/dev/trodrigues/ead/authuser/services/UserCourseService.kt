@@ -7,6 +7,6 @@ import java.util.*
 
 interface UserCourseService {
 
-    fun getAllCoursesByUser(userId: UUID, pageable: Pageable): PageResponse<CourseResponse>
+    fun getCoursesByUser(userId: UUID, pageable: Pageable): PageResponse<CourseResponse>
 
 }
