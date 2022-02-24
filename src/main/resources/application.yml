@@ -16,3 +16,6 @@ spring:
         show_sql: true
   jackson:
     default-property-inclusion: non_null
+
+course:
+  url: http://localhost:8082
