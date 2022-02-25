@@ -12,7 +12,6 @@ data class UserResponse(
     val id: UUID? = null,
     val username: String,
     val email: String,
-    val password: String,
     val fullName: String,
     val userStatus: UserStatus,
     val userType: UserType,

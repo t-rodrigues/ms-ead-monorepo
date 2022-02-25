@@ -17,7 +17,6 @@ fun UserModel.toResponse(): UserResponse = UserResponse(
     id = this.id,
     username = this.username,
     email = this.email,
-    password = this.password,
     fullName = this.fullName,
     userStatus = this.userStatus,
     userType = this.userType,
