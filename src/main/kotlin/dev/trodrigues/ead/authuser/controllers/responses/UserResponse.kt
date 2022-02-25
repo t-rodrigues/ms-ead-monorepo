@@ -19,9 +19,8 @@ data class UserResponse(
     val cpf: String,
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val creationDate: LocalDateTime? = null,
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     val lastUpdatedDate: LocalDateTime? = null
 )

@@ -8,17 +8,17 @@ import javax.validation.constraints.Size
 data class PostUserRequest(
     @field:NotBlank
     @field:UsernameConstraint
-    val username: String = "",
+    val username: String?,
 
     @field:NotBlank
     @field:Email
-    val email: String,
+    val email: String?,
 
     @field:NotBlank
     @field:Size(min = 6)
-    val password: String,
+    val password: String?,
 
-    val fullName: String,
-    val phoneNumber: String,
-    val cpf: String
+    val fullName: String?,
+    val phoneNumber: String?,
+    val cpf: String?
 )

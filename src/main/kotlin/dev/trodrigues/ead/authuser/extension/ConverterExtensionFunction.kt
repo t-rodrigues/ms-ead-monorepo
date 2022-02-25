@@ -22,18 +22,20 @@ fun UserModel.toResponse(): UserResponse = UserResponse(
     userStatus = this.userStatus,
     userType = this.userType,
     cpf = this.cpf,
+    imageUrl = this.imageUrl,
+    phoneNumber = this.phoneNumber,
     creationDate = this.creationDate,
     lastUpdatedDate = this.lastUpdatedDate
 )
 
 fun PostUserRequest.toModel(): UserModel = UserModel(
     username = this.username!!,
-    email = this.email,
-    password = this.password,
-    fullName = this.fullName,
+    email = this.email!!,
+    password = this.password!!,
+    fullName = this.fullName!!,
     userStatus = UserStatus.ACTIVE,
     userType = UserType.STUDENT,
-    cpf = this.cpf,
+    cpf = this.cpf!!,
     phoneNumber = phoneNumber
 )
 
@@ -47,7 +49,7 @@ fun PutUserRequest.toModel(previousValue: UserModel): UserModel =
 
 fun PatchPasswordRequest.toModel(previousValue: UserModel): UserModel =
     previousValue.copy(
-        password = this.password,
+        password = this.password!!,
         lastUpdatedDate = LocalDateTime.now(ZoneId.of("UTC"))
     )
 
