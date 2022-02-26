@@ -17,5 +17,7 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-users:
-  url: http://localhost:8087
+ead:
+  api:
+    url:
+      auth-user: "http://localhost:8087"
