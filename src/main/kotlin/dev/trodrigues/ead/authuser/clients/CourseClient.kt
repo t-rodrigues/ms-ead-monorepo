@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import java.util.*
 
-@FeignClient(name = "courses", url = "\${course.url}")
-interface UserClient {
+@FeignClient(name = "courses", url = "\${ead.api.url.course}")
+interface CourseClient {
 
     @GetMapping("/courses")
     fun getCoursesByUser(

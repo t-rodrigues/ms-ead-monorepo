@@ -1,6 +1,6 @@
 package dev.trodrigues.ead.authuser.services.impl
 
-import dev.trodrigues.ead.authuser.clients.UserClient
+import dev.trodrigues.ead.authuser.clients.CourseClient
 import dev.trodrigues.ead.authuser.controllers.responses.CourseResponse
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.repositories.UserCourseRepository
@@ -12,11 +12,11 @@ import java.util.*
 @Service
 class UserCourseServiceImpl(
     private val userCourseRepository: UserCourseRepository,
-    private val userClient: UserClient
+    private val courseClient: CourseClient
 ) : UserCourseService {
 
     override fun getCoursesByUser(userId: UUID, pageable: Pageable): PageResponse<CourseResponse> {
-        val response = userClient.getCoursesByUser(userId, pageable)
+        val response = courseClient.getCoursesByUser(userId, pageable)
         println(response.items)
         return response
     }
