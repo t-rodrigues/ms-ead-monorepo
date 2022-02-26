@@ -7,7 +7,7 @@ import javax.persistence.*
 data class CourseUserModel(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: UUID,
+    val id: UUID? = null,
     @ManyToOne(fetch = FetchType.LAZY)
     val course: CourseModel,
     val userId: UUID
