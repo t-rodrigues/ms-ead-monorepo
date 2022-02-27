@@ -8,5 +8,5 @@ data class CourseFilter(
     val name: String?,
     val courseStatus: CourseStatus?,
     val courseLevel: CourseLevel?,
-    val userId: UUID,
+    val userId: UUID?,
 )
