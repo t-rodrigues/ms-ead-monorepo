@@ -2,6 +2,7 @@ package dev.trodrigues.ead.course.services.impl
 
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.course.clients.AuthUserClient
+import dev.trodrigues.ead.course.controllers.requests.PostUserCourseRequest
 import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.controllers.responses.UserResponse
 import dev.trodrigues.ead.course.models.CourseModel
@@ -14,6 +15,7 @@ import dev.trodrigues.ead.course.services.exceptions.NotFoundException
 import feign.FeignException
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -26,7 +28,8 @@ class CourseUserServiceImpl(
         return authUserClient.getUsersByCourse(courseId, pageable)
     }
 
-    override fun saveSubscriptionUserInCourse(course: CourseModel, userId: UUID) {
+    @Transactional
+    override fun saveSubscriptionUserInCourse(course: CourseModel, userId: UUID): CourseUserModel {
         if (courseUserRepository.existsByCourseAndUserId(course, userId)) {
             throw ConflictException("subscription already exists")
         }
@@ -36,7 +39,8 @@ class CourseUserServiceImpl(
                 throw ForbiddenException("User is blocked")
             }
             val courseUser = CourseUserModel(course = course, userId = userResponse.id!!)
-            courseUserRepository.save(courseUser)
+            authUserClient.postSubscriptionUserInCourse(courseUser.userId, PostUserCourseRequest(courseUser.course.id!!))
+            return courseUserRepository.save(courseUser)
         } catch (ex: FeignException) {
             throw NotFoundException("User not found")
         }

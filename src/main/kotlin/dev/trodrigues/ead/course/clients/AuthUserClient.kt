@@ -1,12 +1,11 @@
 package dev.trodrigues.ead.course.clients
 
+import dev.trodrigues.ead.course.controllers.requests.PostUserCourseRequest
 import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.controllers.responses.UserResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.data.domain.Pageable
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @FeignClient(name = "users", url = "\${ead.api.url.auth-user}")
@@ -17,5 +16,8 @@ interface AuthUserClient {
 
     @GetMapping("/users/{userId}")
     fun getUserById(@PathVariable userId: UUID): UserResponse
+
+    @PostMapping("/users/{userId}/courses/subscription")
+    fun postSubscriptionUserInCourse(@PathVariable userId: UUID, @RequestBody postUserCourseRequest: PostUserCourseRequest)
 
 }

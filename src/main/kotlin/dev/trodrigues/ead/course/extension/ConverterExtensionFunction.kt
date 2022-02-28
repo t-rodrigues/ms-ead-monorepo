@@ -1,11 +1,9 @@
 package dev.trodrigues.ead.course.extension
 
 import dev.trodrigues.ead.course.controllers.requests.*
-import dev.trodrigues.ead.course.controllers.responses.CourseResponse
-import dev.trodrigues.ead.course.controllers.responses.LessonResponse
-import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
-import dev.trodrigues.ead.course.controllers.responses.PageResponse
+import dev.trodrigues.ead.course.controllers.responses.*
 import dev.trodrigues.ead.course.models.CourseModel
+import dev.trodrigues.ead.course.models.CourseUserModel
 import dev.trodrigues.ead.course.models.LessonModel
 import dev.trodrigues.ead.course.models.ModuleModel
 import org.springframework.data.domain.Page
@@ -90,4 +88,10 @@ fun <T> Page<T>.toPageResponse(): PageResponse<T> = PageResponse(
     currentPage = this.number,
     totalPages = this.totalPages,
     totalItems = this.totalElements
+)
+
+fun CourseUserModel.toResponse(): CourseUserResponse = CourseUserResponse(
+    id = this.id!!,
+    courseId = this.course.id!!,
+    userId = this.userId
 )

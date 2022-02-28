@@ -1,8 +1,10 @@
 package dev.trodrigues.ead.course.controllers
 
 import dev.trodrigues.ead.course.controllers.requests.SubscriptionRequest
+import dev.trodrigues.ead.course.controllers.responses.CourseUserResponse
 import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.controllers.responses.UserResponse
+import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.CourseUserService
 import org.springframework.data.domain.Pageable
@@ -31,9 +33,11 @@ class CourseUserController(
     fun saveSubscriptionUserInCourse(
         @PathVariable courseId: UUID,
         @Valid @RequestBody subscriptionRequest: SubscriptionRequest
-    ) {
+    ): CourseUserResponse {
         val course = courseService.getCourseById(courseId)
-        courseUserService.saveSubscriptionUserInCourse(course, subscriptionRequest.userId!!)
+        println(subscriptionRequest)
+        val courseUser = courseUserService.saveSubscriptionUserInCourse(course, subscriptionRequest.userId!!)
+        return courseUser.toResponse()
     }
 
 }
