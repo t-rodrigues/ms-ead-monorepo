@@ -19,11 +19,6 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-ead:
-  api:
-    url:
-      course: "http://localhost:8082"
-
 eureka:
   client:
     service-url:
