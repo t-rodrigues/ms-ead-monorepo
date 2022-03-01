@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
-@FeignClient(name = "users", url = "\${ead.api.url.auth-user}")
+@FeignClient(name = "ead-auth-user-service")
 interface AuthUserClient {
 
     @GetMapping("/users")

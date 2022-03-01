@@ -19,11 +19,6 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-ead:
-  api:
-    url:
-      auth-user: "http://localhost:8087"
-
 eureka:
   client:
     service-url:
