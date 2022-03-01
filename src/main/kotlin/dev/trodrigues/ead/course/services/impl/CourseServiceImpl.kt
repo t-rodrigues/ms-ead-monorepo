@@ -5,6 +5,7 @@ import dev.trodrigues.ead.course.enums.Errors
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.repositories.CourseRepository
+import dev.trodrigues.ead.course.repositories.CourseUserRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
 import dev.trodrigues.ead.course.services.CourseService
@@ -20,7 +21,8 @@ import java.util.*
 class CourseServiceImpl(
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
-    private val lessonRepository: LessonRepository
+    private val lessonRepository: LessonRepository,
+    private val courseUserRepository: CourseUserRepository
 ) : CourseService {
 
     @Transactional(readOnly = true)
@@ -56,6 +58,10 @@ class CourseServiceImpl(
                     lessonRepository.deleteAll(lessons)
             }
             moduleRepository.deleteAll(modules)
+        }
+        val coursesUsers = courseUserRepository.findAllCourseUserIntoCourse(courseModel.id!!)
+        if (coursesUsers.isNotEmpty()) {
+            courseUserRepository.deleteAll(coursesUsers)
         }
         courseRepository.delete(courseModel)
     }
