@@ -3,6 +3,7 @@ package dev.trodrigues.ead.authuser.services.impl
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
+import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.models.UserModel
 import dev.trodrigues.ead.authuser.repositories.UserRepository
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 @Service
@@ -55,6 +58,15 @@ class UserServiceImpl(
     override fun updateAvatar(userId: UUID, patchUserAvatarRequest: PatchUserAvatarRequest) {
         val oldUser = findById(userId)
         userRepository.save(patchUserAvatarRequest.toModel(oldUser))
+    }
+
+    override fun updateUserType(userId: UUID, userType: UserType): UserModel {
+        val oldUser = findById(userId)
+        val updatedUser = oldUser.copy(
+            userType = userType,
+            lastUpdatedDate = LocalDateTime.now(ZoneId.of("UTC"))
+        )
+        return userRepository.save(updatedUser)
     }
 
     private fun checkIfExistsByUsername(username: String) {
