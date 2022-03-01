@@ -6,6 +6,7 @@ import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.models.UserModel
+import dev.trodrigues.ead.authuser.repositories.UserCourseRepository
 import dev.trodrigues.ead.authuser.repositories.UserRepository
 import dev.trodrigues.ead.authuser.services.UserService
 import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
@@ -20,7 +21,8 @@ import java.util.*
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val userCourseRepository: UserCourseRepository
 ) : UserService {
 
     override fun findAll(spec: Specification<UserModel>, pageable: Pageable): Page<UserModel> {
@@ -33,6 +35,10 @@ class UserServiceImpl(
 
     override fun delete(userId: UUID) {
         val user = findById(userId)
+        val usersCourses = userCourseRepository.findAllUserCourseIntoUser(user.id!!)
+        if (usersCourses.isNotEmpty()) {
+            userCourseRepository.deleteAll(usersCourses)
+        }
         userRepository.delete(user)
     }
 
