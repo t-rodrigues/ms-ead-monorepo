@@ -1,9 +1,9 @@
 package dev.trodrigues.ead.authuser.controllers
 
+import dev.trodrigues.ead.authuser.controllers.filters.UserFilter
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
-import dev.trodrigues.ead.authuser.controllers.requests.filters.UserFilter
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
@@ -26,10 +26,10 @@ class UserController(
 
     @GetMapping
     fun getUsers(
+        filter: UserFilter,
         @PageableDefault(
             page = 0, size = 15, sort = ["fullName"]
-        ) pageable: Pageable,
-        filter: UserFilter
+        ) pageable: Pageable
     ): PageResponse<UserResponse> {
         return userService.findAll(UserSpecification.users(filter), pageable).map { it.toResponse() }.toPageResponse()
     }

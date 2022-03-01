@@ -1,12 +1,10 @@
 package dev.trodrigues.ead.authuser.specifications
 
-import dev.trodrigues.ead.authuser.controllers.requests.filters.UserFilter
-import dev.trodrigues.ead.authuser.enums.UserStatus
+import dev.trodrigues.ead.authuser.controllers.filters.UserFilter
 import dev.trodrigues.ead.authuser.models.UserCourseModel
 import dev.trodrigues.ead.authuser.models.UserModel
-import org.hibernate.usertype.UserType
 import org.springframework.data.jpa.domain.Specification
-import java.util.UUID
+import java.util.*
 import javax.persistence.criteria.Predicate
 
 object UserSpecification {
