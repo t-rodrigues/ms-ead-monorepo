@@ -4,3 +4,23 @@ server:
 spring:
   application:
     name: ead-api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: ead-auth-user
+          uri: lb://ead-auth-user-service
+          predicates:
+          - Path=/ead-auth-user-service/**
+        - id: ead-course
+          uri: lb://ead-course-service
+          predicates:
+          - Path=/ead-course-service/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka"
