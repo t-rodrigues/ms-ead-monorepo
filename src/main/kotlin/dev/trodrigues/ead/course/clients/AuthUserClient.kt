@@ -20,4 +20,7 @@ interface AuthUserClient {
     @PostMapping("/users/{userId}/courses/subscription")
     fun postSubscriptionUserInCourse(@PathVariable userId: UUID, @RequestBody postUserCourseRequest: PostUserCourseRequest)
 
+    @DeleteMapping("/users/courses/{courseId}")
+    fun deleteCourseInAuthUser(@PathVariable courseId: UUID)
+
 }
