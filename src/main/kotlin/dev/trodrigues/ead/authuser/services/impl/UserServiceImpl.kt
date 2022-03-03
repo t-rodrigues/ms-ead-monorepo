@@ -42,7 +42,7 @@ class UserServiceImpl(
         if (usersCourses.isNotEmpty()) {
             userCourseRepository.deleteAll(usersCourses)
             try {
-                courseClient.deleteCourseUserByUser(user.id!!)
+                courseClient.deleteCourseUserByUser(user.id)
             } catch (ex: FeignException) {
                 throw ConflictException("${ex.message}")
             }

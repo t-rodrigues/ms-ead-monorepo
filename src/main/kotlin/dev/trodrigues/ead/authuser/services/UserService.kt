@@ -26,6 +26,6 @@ interface UserService {
 
     fun updateAvatar(userId: UUID, patchUserAvatarRequest: PatchUserAvatarRequest)
 
-    fun updateUserType(userId: UUID, type: UserType): UserModel
+    fun updateUserType(userId: UUID, userType: UserType): UserModel
 
 }
