@@ -9,19 +9,20 @@ import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.CourseUserService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/courses/{courseId}/users")
+@RequestMapping("/courses")
 @CrossOrigin(originPatterns = ["*"], maxAge = 3600)
 class CourseUserController(
     private val courseUserService: CourseUserService,
     private val courseService: CourseService
 ) {
 
-    @GetMapping
+    @GetMapping("/{courseId}/users")
     fun getUsersByCourse(
         @PathVariable courseId: UUID,
         @PageableDefault(size = 10, sort = ["fullName"]) pageable: Pageable
@@ -29,7 +30,7 @@ class CourseUserController(
         return courseUserService.getUsersByCourse(courseId, pageable)
     }
 
-    @PostMapping("/subscription")
+    @PostMapping("/{courseId}/users/subscription")
     fun saveSubscriptionUserInCourse(
         @PathVariable courseId: UUID,
         @Valid @RequestBody subscriptionRequest: SubscriptionRequest
@@ -38,6 +39,12 @@ class CourseUserController(
         println(subscriptionRequest)
         val courseUser = courseUserService.saveSubscriptionUserInCourse(course, subscriptionRequest.userId!!)
         return courseUser.toResponse()
+    }
+
+    @DeleteMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteCourseUserByUser(@PathVariable userId: UUID) {
+        courseUserService.deleteCourseUserByUser(userId)
     }
 
 }

@@ -39,11 +39,22 @@ class CourseUserServiceImpl(
                 throw ForbiddenException("User is blocked")
             }
             val courseUser = CourseUserModel(course = course, userId = userResponse.id!!)
-            authUserClient.postSubscriptionUserInCourse(courseUser.userId, PostUserCourseRequest(courseUser.course.id!!))
+            authUserClient.postSubscriptionUserInCourse(
+                courseUser.userId,
+                PostUserCourseRequest(courseUser.course.id!!)
+            )
             return courseUserRepository.save(courseUser)
         } catch (ex: FeignException) {
             throw NotFoundException("User not found")
         }
+    }
+
+    @Transactional
+    override fun deleteCourseUserByUser(userId: UUID) {
+        if (!courseUserRepository.existsByUserId(userId)) {
+            throw NotFoundException("User not found: [$userId]")
+        }
+        courseUserRepository.deleteAllByUserId(userId)
     }
 
 }

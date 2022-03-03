@@ -13,4 +13,6 @@ interface CourseUserService {
 
     fun saveSubscriptionUserInCourse(course: CourseModel, userId: UUID): CourseUserModel
 
+    fun deleteCourseUserByUser(userId: UUID)
+
 }
