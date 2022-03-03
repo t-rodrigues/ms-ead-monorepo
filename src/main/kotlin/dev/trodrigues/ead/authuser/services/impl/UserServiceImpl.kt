@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.authuser.services.impl
 
+import dev.trodrigues.ead.authuser.clients.CourseClient
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
@@ -11,6 +12,7 @@ import dev.trodrigues.ead.authuser.repositories.UserRepository
 import dev.trodrigues.ead.authuser.services.UserService
 import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
 import dev.trodrigues.ead.authuser.services.exceptions.ObjectNotFoundException
+import feign.FeignException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
@@ -22,7 +24,8 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val userCourseRepository: UserCourseRepository
+    private val userCourseRepository: UserCourseRepository,
+    private val courseClient: CourseClient
 ) : UserService {
 
     override fun findAll(spec: Specification<UserModel>, pageable: Pageable): Page<UserModel> {
@@ -38,6 +41,11 @@ class UserServiceImpl(
         val usersCourses = userCourseRepository.findAllUserCourseIntoUser(user.id!!)
         if (usersCourses.isNotEmpty()) {
             userCourseRepository.deleteAll(usersCourses)
+            try {
+                courseClient.deleteCourseUserByUser(user.id!!)
+            } catch (ex: FeignException) {
+                throw ConflictException("${ex.message}")
+            }
         }
         userRepository.delete(user)
     }
