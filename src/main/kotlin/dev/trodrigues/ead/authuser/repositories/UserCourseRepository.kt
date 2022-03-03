@@ -13,4 +13,8 @@ interface UserCourseRepository : JpaRepository<UserCourseModel, UUID> {
     @Query("select * from tb_users_courses where user_id = :userId", nativeQuery = true)
     fun findAllUserCourseIntoUser(userId: UUID): List<UserCourseModel>
 
+    fun existsByCourseId(courseId: UUID): Boolean
+
+    fun deleteAllByCourseId(courseId: UUID)
+
 }

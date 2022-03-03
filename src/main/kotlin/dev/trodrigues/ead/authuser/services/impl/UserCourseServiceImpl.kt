@@ -8,8 +8,10 @@ import dev.trodrigues.ead.authuser.models.UserModel
 import dev.trodrigues.ead.authuser.repositories.UserCourseRepository
 import dev.trodrigues.ead.authuser.services.UserCourseService
 import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
+import dev.trodrigues.ead.authuser.services.exceptions.ObjectNotFoundException
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -30,6 +32,14 @@ class UserCourseServiceImpl(
         }
         val userCourse = UserCourseModel(user = user, courseId = courseId)
         return userCourseRepository.save(userCourse)
+    }
+
+    @Transactional
+    override fun deleteUserCourseByCourse(courseId: UUID) {
+        if (!userCourseRepository.existsByCourseId(courseId)) {
+            throw ObjectNotFoundException("course not found: [$courseId]")
+        }
+        userCourseRepository.deleteAllByCourseId(courseId)
     }
 
 }
