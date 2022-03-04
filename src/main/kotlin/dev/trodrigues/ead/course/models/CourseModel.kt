@@ -26,7 +26,5 @@ data class CourseModel(
     val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
     @OneToMany(mappedBy = "course")
     @Fetch(FetchMode.SUBSELECT)
-    val modules: Set<ModuleModel> = mutableSetOf(),
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    val coursesUsers: Set<CourseUserModel> = mutableSetOf()
+    val modules: Set<ModuleModel> = mutableSetOf()
 )
