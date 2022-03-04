@@ -5,11 +5,9 @@ import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PostUserRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
-import dev.trodrigues.ead.authuser.controllers.responses.UserCourseResponse
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.enums.UserStatus
 import dev.trodrigues.ead.authuser.enums.UserType
-import dev.trodrigues.ead.authuser.models.UserCourseModel
 import dev.trodrigues.ead.authuser.models.UserModel
 import org.springframework.data.domain.Page
 import java.time.LocalDateTime
@@ -65,10 +63,4 @@ fun <T> Page<T>.toPageResponse(): PageResponse<T> = PageResponse(
     currentPage = this.number,
     totalPages = this.totalPages,
     totalItems = this.totalElements
-)
-
-fun UserCourseModel.toResponse(): UserCourseResponse = UserCourseResponse(
-    id = this.id!!,
-    user = this.user.toResponse(),
-    courseId = this.courseId
 )

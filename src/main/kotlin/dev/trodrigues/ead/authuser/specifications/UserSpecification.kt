@@ -1,10 +1,8 @@
 package dev.trodrigues.ead.authuser.specifications
 
 import dev.trodrigues.ead.authuser.controllers.filters.UserFilter
-import dev.trodrigues.ead.authuser.models.UserCourseModel
 import dev.trodrigues.ead.authuser.models.UserModel
 import org.springframework.data.jpa.domain.Specification
-import java.util.*
 import javax.persistence.criteria.Predicate
 
 object UserSpecification {
@@ -12,13 +10,6 @@ object UserSpecification {
     fun users(filter: UserFilter): Specification<UserModel> {
         return Specification { root, _, criteriaBuilder ->
             val predicates = mutableListOf<Predicate>()
-
-            filter.courseId?.let {
-                val userProd = root.join<UserModel, UserCourseModel>("usersCourses")
-                predicates.add(
-                    criteriaBuilder.equal(userProd.get<UUID>("courseId"), it)
-                )
-            }
 
             filter.userType?.let {
                 predicates.add(

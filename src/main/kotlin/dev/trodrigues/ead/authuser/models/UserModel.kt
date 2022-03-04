@@ -9,7 +9,8 @@ import javax.persistence.*
 
 @Entity(name = "TB_USERS")
 data class UserModel(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     val id: UUID? = null,
     val username: String,
     val email: String,
@@ -23,7 +24,5 @@ data class UserModel(
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
     val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
-    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    val usersCourses: Set<UserCourseModel> = mutableSetOf()
+    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC"))
 )
