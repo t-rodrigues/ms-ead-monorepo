@@ -64,11 +64,11 @@ class CourseServiceImpl(
             }
             moduleRepository.deleteAll(modules)
         }
-        val coursesUsers = courseUserRepository.findAllCourseUserIntoCourse(courseModel.id!!)
+        val coursesUsers = courseUserRepository.findAllCourseUserIntoCourse(courseModel.id)
         if (coursesUsers.isNotEmpty()) {
             courseUserRepository.deleteAll(coursesUsers)
             try {
-                authUserClient.deleteCourseInAuthUser(courseModel.id!!)
+                authUserClient.deleteCourseInAuthUser(courseModel.id)
             } catch (ex: FeignException) {
                 if(!ex.status().equals(HttpStatus.NO_CONTENT.value())){
                     throw ConflictException("${ex.message}")
