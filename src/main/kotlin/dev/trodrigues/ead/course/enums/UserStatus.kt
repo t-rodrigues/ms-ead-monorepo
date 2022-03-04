@@ -1,4 +1,4 @@
-package dev.trodrigues.ead.authuser.enums
+package dev.trodrigues.ead.course.enums
 
 enum class UserStatus {
 
