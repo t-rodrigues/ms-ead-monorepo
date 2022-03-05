@@ -24,6 +24,11 @@ spring:
     username: rabbitmq
     password: rabbitmq
 
+ead:
+  broker:
+    exchange:
+      userEvent: ead.userevent
+
 eureka:
   client:
     service-url:

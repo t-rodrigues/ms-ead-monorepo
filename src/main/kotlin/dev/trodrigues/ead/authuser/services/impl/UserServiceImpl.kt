@@ -3,9 +3,12 @@ package dev.trodrigues.ead.authuser.services.impl
 import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
+import dev.trodrigues.ead.authuser.enums.ActionType
 import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.extension.toModel
+import dev.trodrigues.ead.authuser.extension.toUserEventResponse
 import dev.trodrigues.ead.authuser.models.UserModel
+import dev.trodrigues.ead.authuser.publishers.UserEventPublisher
 import dev.trodrigues.ead.authuser.repositories.UserRepository
 import dev.trodrigues.ead.authuser.services.UserService
 import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
@@ -21,7 +24,8 @@ import java.util.*
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val userEventPublisher: UserEventPublisher
 ) : UserService {
 
     @Transactional(readOnly = true)
@@ -44,7 +48,9 @@ class UserServiceImpl(
     override fun register(userModel: UserModel): UserModel {
         checkIfExistsByUsername(userModel.username)
         checkIfExistsByEmail(userModel.email)
-        return userRepository.save(userModel)
+        userRepository.save(userModel)
+        userEventPublisher.publishUserEvent(userModel.toUserEventResponse(ActionType.CREATE))
+        return userModel
     }
 
     @Transactional
