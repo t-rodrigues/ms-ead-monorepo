@@ -14,6 +14,4 @@ class RabbitmqConfig {
     @Bean
     fun queueUserEvent(): Queue = Queue(queueUserEvent, true)
 
-//    @Bean
-//    fun exchangeUserEvent(): Exchange = Exchange()
 }

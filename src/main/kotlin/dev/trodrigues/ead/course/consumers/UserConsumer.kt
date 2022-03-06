@@ -37,8 +37,8 @@ class UserConsumer(
         val userEvent = objectMapper.readValue(message.body, UserEvent::class.java)
         when (ActionType.valueOf(userEvent.actionType.uppercase())) {
             ActionType.CREATE -> userService.registerUser(userEvent.toModel())
-            ActionType.UPDATE -> {}
-            ActionType.DELETE -> {}
+            ActionType.UPDATE -> userService.updateUser(userEvent.toModel())
+            ActionType.DELETE -> userService.deleteUser(userEvent.id)
         }
     }
 
