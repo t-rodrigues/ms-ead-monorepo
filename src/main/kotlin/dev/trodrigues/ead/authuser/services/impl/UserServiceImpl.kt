@@ -42,6 +42,7 @@ class UserServiceImpl(
     override fun delete(userId: UUID) {
         val user = findById(userId)
         userRepository.delete(user)
+        userEventPublisher.publishUserEvent(user.toUserEvent(ActionType.DELETE))
     }
 
     @Transactional
@@ -56,7 +57,9 @@ class UserServiceImpl(
     @Transactional
     override fun update(userId: UUID, putUserRequest: PutUserRequest): UserModel {
         val oldUser = findById(userId)
-        return userRepository.save(putUserRequest.toModel(oldUser))
+        val updatedUser = userRepository.save(putUserRequest.toModel(oldUser))
+        userEventPublisher.publishUserEvent(updatedUser.toUserEvent(ActionType.UPDATE))
+        return updatedUser
     }
 
     @Transactional
@@ -71,7 +74,8 @@ class UserServiceImpl(
     @Transactional
     override fun updateAvatar(userId: UUID, patchUserAvatarRequest: PatchUserAvatarRequest) {
         val oldUser = findById(userId)
-        userRepository.save(patchUserAvatarRequest.toModel(oldUser))
+        val updatedUser = userRepository.save(patchUserAvatarRequest.toModel(oldUser))
+        userEventPublisher.publishUserEvent(updatedUser.toUserEvent(ActionType.UPDATE))
     }
 
     @Transactional
@@ -81,7 +85,9 @@ class UserServiceImpl(
             userType = userType,
             lastUpdatedDate = LocalDateTime.now(ZoneId.of("UTC"))
         )
-        return userRepository.save(updatedUser)
+        userRepository.save(updatedUser)
+        userEventPublisher.publishUserEvent(updatedUser.toUserEvent(ActionType.UPDATE))
+        return updatedUser
     }
 
     private fun checkIfExistsByUsername(username: String) {
