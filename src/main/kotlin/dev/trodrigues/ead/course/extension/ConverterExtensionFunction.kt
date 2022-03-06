@@ -2,6 +2,8 @@ package dev.trodrigues.ead.course.extension
 
 import dev.trodrigues.ead.course.controllers.requests.*
 import dev.trodrigues.ead.course.controllers.responses.*
+import dev.trodrigues.ead.course.enums.UserStatus
+import dev.trodrigues.ead.course.enums.UserType
 import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.models.LessonModel
 import dev.trodrigues.ead.course.models.ModuleModel
@@ -96,6 +98,16 @@ fun UserModel.toResponse(): UserResponse = UserResponse(
     email = this.email,
     userStatus = this.userStatus,
     userType = this.userType,
+    cpf = this.cpf,
+    imageUrl = this.imageUrl
+)
+
+fun UserEvent.toModel(): UserModel = UserModel(
+    id = this.id,
+    fullName = this.fullName,
+    email = this.email,
+    userStatus = UserStatus.valueOf(this.userStatus.uppercase()),
+    userType = UserType.valueOf(this.userType.uppercase()),
     cpf = this.cpf,
     imageUrl = this.imageUrl
 )

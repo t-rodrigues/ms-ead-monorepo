@@ -9,4 +9,6 @@ interface UserService {
 
     fun getCoursesByUser(spec: Specification<UserModel>, pageable: Pageable): Page<UserModel>
 
+    fun registerUser(userModel: UserModel): UserModel
+
 }

@@ -8,6 +8,8 @@ spring:
     url: ${COURSE_DATABASE_URL}
     username: ${COURSE_DATABASE_USER}
     password: ${COURSE_DATABASE_PASSWORD}
+  jackson:
+    default-property-inclusion: non_null
   jpa:
     properties:
       dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -16,8 +18,18 @@ spring:
           lob:
             non-contextual-creation: true
         show_sql: true
-  jackson:
-    default-property-inclusion: non_null
+  rabbitmq:
+    host: localhost
+    username: rabbitmq
+    password: rabbitmq
+
+ead:
+  broker:
+    exchange:
+      userEvent: ead.userevent
+    queue:
+      userEventQueue:
+        name: ead.userevent.ms.course
 
 eureka:
   client:

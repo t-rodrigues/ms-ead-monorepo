@@ -17,4 +17,6 @@ class UserServiceImpl(
         return userRepository.findAll(spec, pageable)
     }
 
+    override fun registerUser(userModel: UserModel): UserModel = userRepository.save(userModel)
+
 }
