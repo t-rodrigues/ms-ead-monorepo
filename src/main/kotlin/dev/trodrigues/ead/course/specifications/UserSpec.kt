@@ -23,13 +23,6 @@ object UserSpec {
                 )
             }
 
-//            courseId?.let { courseId ->
-//                val userProd = root.join<UserModel, CourseModel>("courses")
-//                predicates.add(
-//                    criteriaBuilder.equal(userProd.get<UUID>("courseId"), courseId)
-//                )
-//            }
-
             filter.email?.let { email ->
                 predicates.add(
                     cb.like(cb.lower(root.get("email")), "%${email.lowercase()}%")
@@ -44,7 +37,7 @@ object UserSpec {
 
             filter.userStatus?.let { status ->
                 predicates.add(
-                    cb.equal(root.get<String>("userS"), status)
+                    cb.equal(root.get<String>("userStatus"), status)
                 )
             }
 
