@@ -2,9 +2,10 @@ package dev.trodrigues.ead.authuser.controllers.responses
 
 import java.util.*
 
-data class UserEventResponse(
+data class UserEvent(
     val id: UUID,
     val username: String,
+    val email: String,
     val fullName: String,
     val userStatus: String,
     val userType: String,

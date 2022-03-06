@@ -5,7 +5,7 @@ import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PostUserRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
-import dev.trodrigues.ead.authuser.controllers.responses.UserEventResponse
+import dev.trodrigues.ead.authuser.controllers.responses.UserEvent
 import dev.trodrigues.ead.authuser.controllers.responses.UserResponse
 import dev.trodrigues.ead.authuser.enums.ActionType
 import dev.trodrigues.ead.authuser.enums.UserStatus
@@ -29,9 +29,10 @@ fun UserModel.toResponse(): UserResponse = UserResponse(
     lastUpdatedDate = this.lastUpdatedDate
 )
 
-fun UserModel.toUserEventResponse(actionType: ActionType) = UserEventResponse(
+fun UserModel.toUserEvent(actionType: ActionType) = UserEvent(
     id = this.id!!,
     username = this.username,
+    email = this.email,
     fullName = this.fullName,
     userStatus = this.userStatus.name.uppercase(),
     userType = this.userType.name.uppercase(),

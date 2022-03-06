@@ -6,7 +6,7 @@ import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.enums.ActionType
 import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.extension.toModel
-import dev.trodrigues.ead.authuser.extension.toUserEventResponse
+import dev.trodrigues.ead.authuser.extension.toUserEvent
 import dev.trodrigues.ead.authuser.models.UserModel
 import dev.trodrigues.ead.authuser.publishers.UserEventPublisher
 import dev.trodrigues.ead.authuser.repositories.UserRepository
@@ -49,7 +49,7 @@ class UserServiceImpl(
         checkIfExistsByUsername(userModel.username)
         checkIfExistsByEmail(userModel.email)
         userRepository.save(userModel)
-        userEventPublisher.publishUserEvent(userModel.toUserEventResponse(ActionType.CREATE))
+        userEventPublisher.publishUserEvent(userModel.toUserEvent(ActionType.CREATE))
         return userModel
     }
 
