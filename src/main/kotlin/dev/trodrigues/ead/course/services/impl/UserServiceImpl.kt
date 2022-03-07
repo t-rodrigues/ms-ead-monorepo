@@ -30,6 +30,10 @@ class UserServiceImpl(
     override fun updateUser(userModel: UserModel): UserModel = userRepository.save(userModel)
 
     @Transactional
-    override fun deleteUser(userId: UUID) = userRepository.deleteById(userId)
+    override fun deleteUser(userId: UUID) {
+        val user = getUserById(userId)
+        userRepository.deleteCourseUserByUser(user.id)
+        userRepository.deleteById(user.id)
+    }
 
 }

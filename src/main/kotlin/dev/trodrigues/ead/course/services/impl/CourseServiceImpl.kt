@@ -61,6 +61,7 @@ class CourseServiceImpl(
             }
             moduleRepository.deleteAll(modules)
         }
+        courseRepository.deleteCourseUserByCourse(courseModel.id)
         courseRepository.delete(courseModel)
     }
 

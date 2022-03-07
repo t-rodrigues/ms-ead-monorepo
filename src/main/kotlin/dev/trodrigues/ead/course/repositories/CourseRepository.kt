@@ -21,4 +21,8 @@ interface CourseRepository : JpaRepository<CourseModel, UUID>, JpaSpecificationE
     @Query("insert into tb_courses_users (course_id, user_id) values (:courseId, :userId)", nativeQuery = true)
     fun saveCourseUser(courseId: UUID, userId: UUID)
 
+    @Modifying
+    @Query("delete from tb_courses_users where course_id = :courseId", nativeQuery = true)
+    fun deleteCourseUserByCourse(courseId: UUID)
+
 }
