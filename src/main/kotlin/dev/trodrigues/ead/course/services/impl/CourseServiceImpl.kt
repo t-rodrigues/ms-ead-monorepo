@@ -2,12 +2,15 @@ package dev.trodrigues.ead.course.services.impl
 
 import dev.trodrigues.ead.course.controllers.requests.CoursePutRequest
 import dev.trodrigues.ead.course.enums.Errors
+import dev.trodrigues.ead.course.enums.UserStatus
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.models.CourseModel
 import dev.trodrigues.ead.course.repositories.CourseRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
+import dev.trodrigues.ead.course.repositories.UserRepository
 import dev.trodrigues.ead.course.services.CourseService
+import dev.trodrigues.ead.course.services.exceptions.ConflictException
 import dev.trodrigues.ead.course.services.exceptions.NotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -20,7 +23,8 @@ import java.util.*
 class CourseServiceImpl(
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
-    private val lessonRepository: LessonRepository
+    private val lessonRepository: LessonRepository,
+    private val userRepository: UserRepository
 ) : CourseService {
 
     @Transactional(readOnly = true)
@@ -58,6 +62,19 @@ class CourseServiceImpl(
             moduleRepository.deleteAll(modules)
         }
         courseRepository.delete(courseModel)
+    }
+
+    @Transactional
+    override fun saveSubscriptionUserInCourse(courseId: UUID, userId: UUID) {
+        val course = getCourseById(courseId)
+        val user = userRepository.findById(userId).orElseThrow { NotFoundException("User not found: [$userId]") }
+        if (courseRepository.existsByCourseAndUser(course.id!!, user.id)) {
+            throw ConflictException("User already enrolled.")
+        }
+        if (user.userStatus.equals(UserStatus.BLOCKED)) {
+            throw ConflictException("User is blocked. [${user.id}]")
+        }
+        courseRepository.saveCourseUser(course.id, user.id)
     }
 
 }

@@ -31,7 +31,7 @@ class CourseController(
         filter: CourseFilter,
         @PageableDefault(size = 15, sort = ["creationDate"]) pageable: Pageable
     ): PageResponse<CourseResponse> {
-        val courses = courseService.getCourses(CourseSpec.courses(filter), pageable)
+        val courses = courseService.getCourses(CourseSpec.getCourses(filter), pageable)
         return courses.map { it.toResponse() }.toPageResponse()
     }
 

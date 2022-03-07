@@ -9,36 +9,36 @@ import javax.persistence.criteria.Predicate
 
 object CourseSpec {
 
-    fun courses(filter: CourseFilter): Specification<CourseModel> {
-        return Specification { root, query, criteriaBuilder ->
+    fun getCourses(filter: CourseFilter): Specification<CourseModel> {
+        return Specification { root, _, cb ->
             val predicates = mutableListOf<Predicate>()
 
             filter.userId?.let { userId ->
                 val courseProd = root.join<CourseModel, UserModel>("users")
                 predicates.add(
-                    criteriaBuilder.equal(courseProd.get<UUID>("userId"), userId)
+                    cb.equal(courseProd.get<UUID>("id"), userId)
                 )
             }
 
-            filter.name?.let {
+            filter.name?.let { name ->
                 predicates.add(
-                    criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%${it.uppercase()}%")
+                    cb.like(cb.upper(root.get("name")), "%${name.uppercase()}%")
                 )
             }
 
-            filter.courseLevel?.let {
+            filter.courseLevel?.let { courseLevel ->
                 predicates.add(
-                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("courseLevel")), it)
+                    cb.equal(cb.upper(root.get("courseLevel")), courseLevel)
                 )
             }
 
-            filter.courseStatus?.let {
+            filter.courseStatus?.let { courseStatus ->
                 predicates.add(
-                    criteriaBuilder.equal(criteriaBuilder.upper(root.get("courseStatus")), it)
+                    cb.equal(cb.upper(root.get("courseStatus")), courseStatus)
                 )
             }
 
-            criteriaBuilder.and(*predicates.toTypedArray())
+            cb.and(*predicates.toTypedArray())
         }
     }
 
