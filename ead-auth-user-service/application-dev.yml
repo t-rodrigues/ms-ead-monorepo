@@ -1,15 +1,8 @@
-server:
-  port: 8087
-
 spring:
-  application:
-    name: ead-auth-user-service
   datasource:
     url: ${AUTH_DATABASE_URL}
     username: ${AUTH_DATABASE_USER}
     password: ${AUTH_DATABASE_PASSWORD}
-  jackson:
-    default-property-inclusion: non_null
   jpa:
     properties:
       dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -18,10 +11,3 @@ spring:
           lob:
             non-contextual-creation: true
         show_sql: true
-  profiles:
-    active: dev
-
-ead:
-  broker:
-    exchange:
-      userEvent: ead.userevent
