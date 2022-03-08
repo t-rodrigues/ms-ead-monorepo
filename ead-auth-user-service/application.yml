@@ -1,0 +1,55 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: ead-auth-user-service
+  datasource:
+    url: ${AUTH_DATABASE_URL}
+    username: ${AUTH_DATABASE_USER}
+    password: ${AUTH_DATABASE_PASSWORD}
+  jackson:
+    default-property-inclusion: non_null
+  jpa:
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        jdbc:
+          lob:
+            non-contextual-creation: true
+        show_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+
+ead:
+  broker:
+    exchange:
+      userEvent: ead.userevent
+
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      circuitbreakerInstance:
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 30
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 2
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 80
+  retry:
+    instances:
+      retryInstance:
+        maxRetryAttempts: 3
+        waitDuration: 5s
