@@ -44,6 +44,15 @@ feign:
         readTimeout: 5000
 
 resilience4j:
+  circuitbreaker:
+    instances:
+      circuitbreakerInstance:
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 30
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 2
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 80
   retry:
     instances:
       retryInstance:

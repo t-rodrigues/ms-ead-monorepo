@@ -5,7 +5,7 @@ import dev.trodrigues.ead.authuser.controllers.responses.CourseResponse
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
 import dev.trodrigues.ead.authuser.services.UserService
-import io.github.resilience4j.retry.annotation.Retry
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -23,7 +23,8 @@ class UserCourseController(
 ) {
 
     @GetMapping("/users/{userId}/courses")
-    @Retry(name = "retryInstance", fallbackMethod = "fallback")
+    // @Retry(name = "retryInstance", fallbackMethod = "retryFallback")
+    @CircuitBreaker(name = "circuitbreakerInstance")
     fun getCoursesByUser(
         @PathVariable userId: UUID,
         @PageableDefault(size = 10, sort = ["creationDate"]) pageable: Pageable
@@ -32,7 +33,11 @@ class UserCourseController(
         return courseClient.getCoursesByUser(user.id!!, pageable)
     }
 
-    fun fallback(userId: UUID, pageable: Pageable, throwable: Throwable): PageResponse<CourseResponse> {
+    fun circuitbreakerFallback(userId: UUID, pageable: Pageable, throwable: Throwable): PageResponse<CourseResponse> {
+        return PageImpl(mutableListOf<CourseResponse>()).toPageResponse()
+    }
+
+    fun retryFallback(userId: UUID, pageable: Pageable, throwable: Throwable): PageResponse<CourseResponse> {
         return PageImpl(mutableListOf<CourseResponse>()).toPageResponse()
     }
 
