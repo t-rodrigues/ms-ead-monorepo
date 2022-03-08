@@ -4,3 +4,11 @@ server:
 spring:
   application:
     name: ead-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GITHUB_URI}
+          default-label: ${GITHUB_BRANCH}
+          username: ${GITHUB_USERNAME}
+          password: ${GITHUB_PASSWORD}
