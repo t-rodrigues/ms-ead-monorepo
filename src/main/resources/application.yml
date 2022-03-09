@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: ead-auth-user-service
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    discovery:
+      serviceId: ead-config-server
   datasource:
     url: ${AUTH_DATABASE_URL}
     username: ${AUTH_DATABASE_USER}
