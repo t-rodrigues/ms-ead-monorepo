@@ -14,3 +14,4 @@ spring:
           password: ${GITHUB_PASSWORD}
           search-paths:
             - 'ead-auth-user-service*'
+            - 'ead-course-service*'
