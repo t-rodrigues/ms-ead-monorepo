@@ -12,3 +12,5 @@ spring:
           default-label: ${GITHUB_BRANCH}
           username: ${GITHUB_USERNAME}
           password: ${GITHUB_PASSWORD}
+          search-paths:
+            - 'ead-auth-user-service*'
