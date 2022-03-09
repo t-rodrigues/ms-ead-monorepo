@@ -1,3 +1,9 @@
 package dev.trodrigues.ead.notification.services
 
-interface NotificationService
+import dev.trodrigues.ead.notification.models.NotificationModel
+
+interface NotificationService {
+
+    fun saveNotification(notificationModel: NotificationModel): NotificationModel
+
+}

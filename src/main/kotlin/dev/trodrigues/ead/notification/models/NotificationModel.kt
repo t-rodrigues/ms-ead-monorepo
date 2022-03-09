@@ -2,6 +2,7 @@ package dev.trodrigues.ead.notification.models
 
 import dev.trodrigues.ead.notification.enums.NotificationStatus
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 import javax.persistence.*
 
@@ -13,7 +14,7 @@ data class NotificationModel(
     val userId: UUID,
     val title: String,
     val message: String,
-    val creationDate: LocalDateTime = LocalDateTime.now(),
+    val creationDate: LocalDateTime = LocalDateTime.now(ZoneId.of("UTC")),
     @Enumerated(EnumType.STRING)
     val notificationStatus: NotificationStatus
 )
