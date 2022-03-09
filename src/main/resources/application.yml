@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: ead-course-service
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      discovery:
+        serviceId: ead-config-server
   datasource:
     url: ${COURSE_DATABASE_URL}
     username: ${COURSE_DATABASE_USER}
