@@ -5,6 +5,9 @@ import dev.trodrigues.ead.course.enums.Errors
 import dev.trodrigues.ead.course.enums.UserStatus
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.models.CourseModel
+import dev.trodrigues.ead.course.models.UserModel
+import dev.trodrigues.ead.course.publishers.NotificationCommandPublisher
+import dev.trodrigues.ead.course.publishers.responses.NotificationCommand
 import dev.trodrigues.ead.course.repositories.CourseRepository
 import dev.trodrigues.ead.course.repositories.LessonRepository
 import dev.trodrigues.ead.course.repositories.ModuleRepository
@@ -24,7 +27,8 @@ class CourseServiceImpl(
     private val courseRepository: CourseRepository,
     private val moduleRepository: ModuleRepository,
     private val lessonRepository: LessonRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notificationCommandPublisher: NotificationCommandPublisher
 ) : CourseService {
 
     @Transactional(readOnly = true)
@@ -76,6 +80,18 @@ class CourseServiceImpl(
             throw ConflictException("User is blocked. [${user.id}]")
         }
         courseRepository.saveCourseUser(course.id, user.id)
+        sendNotification(course, user)
+    }
+
+    private fun sendNotification(courseModel: CourseModel, userModel: UserModel) {
+        try {
+            val title = "Bem-vindo(a) ao Curso: ${courseModel.name}"
+            val message = "${userModel.fullName} a sua inscrição foi realizada com sucesso!"
+            val notificationCommand = NotificationCommand(title, message, userModel.id)
+            notificationCommandPublisher.publishNotificationCommand(notificationCommand)
+        } catch (_: Exception) {
+
+        }
     }
 
 }
