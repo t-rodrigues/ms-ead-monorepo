@@ -1,4 +1,4 @@
-package dev.trodrigues.ead.course.controllers.responses
+package dev.trodrigues.ead.course.consumers.responses
 
 import java.util.*
 

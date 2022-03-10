@@ -1,5 +1,6 @@
 package dev.trodrigues.ead.course.extension
 
+import dev.trodrigues.ead.course.consumers.responses.UserEvent
 import dev.trodrigues.ead.course.controllers.requests.*
 import dev.trodrigues.ead.course.controllers.responses.*
 import dev.trodrigues.ead.course.enums.UserStatus

@@ -1,7 +1,7 @@
 package dev.trodrigues.ead.course.consumers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import dev.trodrigues.ead.course.controllers.responses.UserEvent
+import dev.trodrigues.ead.course.consumers.responses.UserEvent
 import dev.trodrigues.ead.course.enums.ActionType
 import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.services.UserService
