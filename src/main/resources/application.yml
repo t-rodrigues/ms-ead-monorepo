@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: ead-notification-service
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      discovery:
+        service-id: ead-config-server
   datasource:
     url: ${NOTIFICATION_DATABASE_URL}
     username: ${NOTIFICATION_DATABASE_USER}
@@ -32,8 +38,3 @@ ead:
         name: ead.notificationCommand.ms.notification
     key:
       notificationCommandKey: ms.notification
-
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:8761/eureka'
