@@ -7,8 +7,9 @@ spring:
   config:
     import: 'optional:configserver:'
   cloud:
-    discovery:
-      serviceId: ead-config-server
+    config:
+      discovery:
+        service-id: ead-config-server
   datasource:
     url: ${AUTH_DATABASE_URL}
     username: ${AUTH_DATABASE_USER}
@@ -37,7 +38,7 @@ ead:
 eureka:
   client:
     service-url:
-      defaultZone: "http://localhost:8761/eureka"
+      defaultZone: 'http://localhost:8761/eureka'
 
 feign:
   circuitbreaker:
