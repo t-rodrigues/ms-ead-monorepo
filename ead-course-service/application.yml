@@ -30,8 +30,3 @@ ead:
     queue:
       userEventQueue:
         name: ead.userevent.ms.course
-
-eureka:
-  client:
-    service-url:
-      defaultZone: "http://localhost:8761/eureka"
