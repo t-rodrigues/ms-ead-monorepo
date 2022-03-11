@@ -14,13 +14,17 @@ spring:
         - id: ead-auth-user
           uri: lb://ead-auth-user-service
           predicates:
-          - Path=/ead-auth-user-service/**
+            - Path=/ead-auth-user-service/**
         - id: ead-course
           uri: lb://ead-course-service
           predicates:
-          - Path=/ead-course-service/**
+            - Path=/ead-course-service/**
+        - id: ead-notification
+          uri: lb://ead-notification-service
+          predicates:
+            - Path=/ead-notification-service/**
 
 eureka:
   client:
     service-url:
-      defaultZone: "http://localhost:8761/eureka"
+      defaultZone: ${EUREKA_URL}
