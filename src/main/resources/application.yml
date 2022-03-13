@@ -16,3 +16,8 @@ spring:
             - 'ead-auth-user-service*'
             - 'ead-course-service*'
             - 'ead-notification-service*'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
