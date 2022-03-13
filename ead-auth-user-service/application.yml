@@ -2,8 +2,6 @@ server:
   port: 8087
 
 spring:
-  application:
-    name: ead-auth-user-service
   datasource:
     url: ${AUTH_DATABASE_URL}
     username: ${AUTH_DATABASE_USER}
@@ -51,5 +49,5 @@ resilience4j:
   retry:
     instances:
       retryInstance:
-        maxRetryAttempts: 3
+        maxRetryAttemps: 3
         waitDuration: 5s
