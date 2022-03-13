@@ -2,8 +2,6 @@ server:
   port: 8082
 
 spring:
-  application:
-    name: ead-course-service
   datasource:
     url: ${COURSE_DATABASE_URL}
     username: ${COURSE_DATABASE_USER}
@@ -27,6 +25,9 @@ ead:
   broker:
     exchange:
       userEvent: ead.userevent
+      notificationCommandExchange: ead.notificationCommand
     queue:
       userEventQueue:
         name: ead.userevent.ms.course
+    key:
+      notificationCommandKey: ms.notification
