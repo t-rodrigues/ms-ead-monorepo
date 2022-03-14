@@ -1,40 +1,11 @@
-server:
-  port: 8084
-
 spring:
   application:
     name: ead-notification-service
   config:
-    import: 'optional:configserver:'
+    import: 'configserver:'
   cloud:
     config:
       discovery:
         service-id: ead-config-server
-  datasource:
-    url: ${NOTIFICATION_DATABASE_URL}
-    username: ${NOTIFICATION_DATABASE_USER}
-    password: ${NOTIFICATION_DATABASE_PASSWORD}
-  jackson:
-    default-property-inclusion: non_null
-  jpa:
-    properties:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-      hibernate:
-        jdbc:
-          lob:
-            non-contextual-creation: true
-        show_sql: true
-  rabbitmq:
-    host: localhost
-    username: rabbitmq
-    password: rabbitmq
-
-ead:
-  broker:
-    exchange:
-      notificationCommandExchange: ead.notificationCommand
-    queue:
-      notificationCommandQueue:
-        name: ead.notificationCommand.ms.notification
-    key:
-      notificationCommandKey: ms.notification
+      username: ${CONFIG_SERVER_USERNAME}
+      password: ${CONFIG_SERVER_PASSWORD}
