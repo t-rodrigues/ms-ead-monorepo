@@ -4,11 +4,13 @@ import dev.trodrigues.ead.authuser.controllers.requests.PatchPasswordRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PatchUserAvatarRequest
 import dev.trodrigues.ead.authuser.controllers.requests.PutUserRequest
 import dev.trodrigues.ead.authuser.enums.ActionType
+import dev.trodrigues.ead.authuser.enums.RoleType
 import dev.trodrigues.ead.authuser.enums.UserType
 import dev.trodrigues.ead.authuser.extension.toModel
 import dev.trodrigues.ead.authuser.extension.toUserEvent
 import dev.trodrigues.ead.authuser.models.UserModel
 import dev.trodrigues.ead.authuser.publishers.UserEventPublisher
+import dev.trodrigues.ead.authuser.repositories.RoleRepository
 import dev.trodrigues.ead.authuser.repositories.UserRepository
 import dev.trodrigues.ead.authuser.services.UserService
 import dev.trodrigues.ead.authuser.services.exceptions.ConflictException
@@ -16,6 +18,7 @@ import dev.trodrigues.ead.authuser.services.exceptions.ObjectNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -25,6 +28,8 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
+    private val passwordEncoder: PasswordEncoder,
     private val userEventPublisher: UserEventPublisher
 ) : UserService {
 
@@ -49,9 +54,14 @@ class UserServiceImpl(
     override fun register(userModel: UserModel): UserModel {
         checkIfExistsByUsername(userModel.username)
         checkIfExistsByEmail(userModel.email)
-        userRepository.save(userModel)
-        userEventPublisher.publishUserEvent(userModel.toUserEvent(ActionType.CREATE))
-        return userModel
+        val role = roleRepository.getByName(RoleType.ROLE_STUDENT)
+        val user = userModel.copy(
+            roles = setOf(role),
+            password = passwordEncoder.encode(userModel.password)
+        )
+        userRepository.save(user)
+        userEventPublisher.publishUserEvent(user.toUserEvent(ActionType.CREATE))
+        return user
     }
 
     @Transactional

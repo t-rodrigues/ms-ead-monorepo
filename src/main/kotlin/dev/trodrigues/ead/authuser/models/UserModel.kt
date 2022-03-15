@@ -24,5 +24,12 @@ data class UserModel(
     val phoneNumber: String? = null,
     val imageUrl: String? = null,
     val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
-    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC"))
+    val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "TB_USERS_ROLES",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    val roles: Set<RoleModel> = mutableSetOf()
 )

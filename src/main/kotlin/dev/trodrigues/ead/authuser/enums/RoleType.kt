@@ -1,10 +1,7 @@
 package dev.trodrigues.ead.authuser.enums
 
-enum class RoleType(val role: String) {
+enum class RoleType {
 
-    ADMIN("ROLE_ADMIN"),
-    INSTRUCTOR("ROLE_INSTRUCTOR"),
-    STUDENT("ROLE_STUDENT"),
-    USER("ROLE_USER")
+    ROLE_ADMIN, ROLE_INSTRUCTOR, ROLE_STUDENT, ROLE_USER
 
 }
