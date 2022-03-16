@@ -19,7 +19,9 @@ class AuthenticationServiceImpl(
         val authToken = UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password)
         val authentication = authenticationManager.authenticate(authToken)
         val userDetails = authentication.principal as UserDetailsImpl
-        val token = jwtProvider.generateJwt(userDetails.username)
+        val roles = userDetails.authorities.joinTo(StringBuilder(""), ",") { role -> role.authority }
+        println(roles)
+        val token = jwtProvider.generateJwt(userDetails.id.toString(), roles.toString())
         return JwtResponse(token)
     }
 

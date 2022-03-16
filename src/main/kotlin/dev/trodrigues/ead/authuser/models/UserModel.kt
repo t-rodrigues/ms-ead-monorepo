@@ -25,7 +25,7 @@ data class UserModel(
     val imageUrl: String? = null,
     val creationDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
     val lastUpdatedDate: LocalDateTime? = LocalDateTime.now(ZoneId.of("UTC")),
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "TB_USERS_ROLES",
         joinColumns = [JoinColumn(name = "user_id")],

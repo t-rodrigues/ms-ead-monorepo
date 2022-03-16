@@ -1,19 +1,19 @@
 package dev.trodrigues.ead.authuser.security.filters
 
 import dev.trodrigues.ead.authuser.security.JwtProvider
+import dev.trodrigues.ead.authuser.security.UserDetailsServiceImpl
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.filter.OncePerRequestFilter
+import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class AuthenticationFilter(
     private val jwtProvider: JwtProvider,
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: UserDetailsServiceImpl
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -24,9 +24,9 @@ class AuthenticationFilter(
         val token = getToken(request)
         token?.let {
             if (jwtProvider.isTokenValid(it)) {
-                val username = jwtProvider.getSubject(it)
-                val userDetails = userDetailsService.loadUserByUsername(username)
-                val authentication: Authentication =
+                val userId = jwtProvider.getSubject(it)
+                val userDetails = userDetailsService.loadUserById(UUID.fromString(userId))
+                val authentication =
                     UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
                 SecurityContextHolder.getContext().authentication = authentication
             }
