@@ -18,8 +18,20 @@ class JwtProvider {
     fun generateJwt(username: String): String =
         Jwts.builder().setSubject(username)
             .setIssuedAt(Date())
-            .setExpiration(Date(Date().time + jwtExpiresIn!!))
+            .setExpiration(Date(System.currentTimeMillis() + jwtExpiresIn!!))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact()
+
+    fun getSubject(token: String): String =
+        Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).body.subject
+
+    fun isTokenValid(token: String): Boolean {
+        return try {
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token)
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
 
 }
