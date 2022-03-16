@@ -6,6 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class UserDetailsImpl(private val userModel: UserModel) : UserDetails {
+
+    val id = userModel.id!!
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
         userModel.roles.map { SimpleGrantedAuthority(it.name!!.name) }.toMutableList()
 
@@ -20,4 +23,5 @@ class UserDetailsImpl(private val userModel: UserModel) : UserDetails {
     override fun isCredentialsNonExpired(): Boolean = true
 
     override fun isEnabled(): Boolean = true
+
 }
