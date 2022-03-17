@@ -7,6 +7,7 @@ import dev.trodrigues.ead.course.controllers.responses.UserResponse
 import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
 import dev.trodrigues.ead.course.security.authorizations.InstructorCanOnlyAccess
+import dev.trodrigues.ead.course.security.authorizations.StudentCanOnlyAccess
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.UserService
 import dev.trodrigues.ead.course.specifications.UserSpec
@@ -26,6 +27,7 @@ class CourseUserController(
     private val courseService: CourseService
 ) {
 
+    @InstructorCanOnlyAccess
     @GetMapping
     fun getUsersByCourse(
         filter: UserFilter,
@@ -36,6 +38,7 @@ class CourseUserController(
         return users.map { it.toResponse() }.toPageResponse()
     }
 
+    @StudentCanOnlyAccess
     @PostMapping("/subscription")
     @ResponseStatus(HttpStatus.CREATED)
     fun saveSubscriptionUserInCourse(
