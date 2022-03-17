@@ -4,6 +4,7 @@ import dev.trodrigues.ead.authuser.clients.CourseClient
 import dev.trodrigues.ead.authuser.controllers.responses.CourseResponse
 import dev.trodrigues.ead.authuser.controllers.responses.PageResponse
 import dev.trodrigues.ead.authuser.extension.toPageResponse
+import dev.trodrigues.ead.authuser.security.authorization.UserCanOnlyAccessTheirOwnResource
 import dev.trodrigues.ead.authuser.services.UserService
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.data.domain.PageImpl
@@ -12,6 +13,7 @@ import org.springframework.data.web.PageableDefault
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -22,15 +24,17 @@ class UserCourseController(
     private val courseClient: CourseClient
 ) {
 
+    @UserCanOnlyAccessTheirOwnResource
     @GetMapping("/users/{userId}/courses")
     // @Retry(name = "retryInstance", fallbackMethod = "retryFallback")
     @CircuitBreaker(name = "circuitbreakerInstance")
     fun getCoursesByUser(
+        @RequestHeader("Authorization") accessToken: String,
         @PathVariable userId: UUID,
         @PageableDefault(size = 10, sort = ["creationDate"]) pageable: Pageable
     ): PageResponse<CourseResponse> {
         val user = userService.findById(userId)
-        return courseClient.getCoursesByUser(user.id!!, pageable)
+        return courseClient.getCoursesByUser(accessToken, user.id!!, pageable)
     }
 
     fun circuitbreakerFallback(userId: UUID, pageable: Pageable, throwable: Throwable): PageResponse<CourseResponse> {
