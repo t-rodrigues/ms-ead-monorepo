@@ -8,6 +8,8 @@ import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.extension.toCourseModel
 import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
+import dev.trodrigues.ead.course.security.authorizations.InstructorCanOnlyAccess
+import dev.trodrigues.ead.course.security.authorizations.StudentCanOnlyAccess
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.specifications.CourseSpec
 import org.springframework.data.domain.Pageable
@@ -26,6 +28,7 @@ class CourseController(
     private val courseService: CourseService
 ) {
 
+    @StudentCanOnlyAccess
     @GetMapping
     fun getCourses(
         filter: CourseFilter,
@@ -35,11 +38,13 @@ class CourseController(
         return courses.map { it.toResponse() }.toPageResponse()
     }
 
+    @StudentCanOnlyAccess
     @GetMapping("/{courseId}")
     fun getCourseById(@PathVariable courseId: UUID): CourseResponse {
         return courseService.getCourseById(courseId).toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @PostMapping
     fun saveCourse(@Valid @RequestBody coursePostRequest: CoursePostRequest): ResponseEntity<CourseResponse> {
         val course = courseService.create(coursePostRequest.toCourseModel())
@@ -47,6 +52,7 @@ class CourseController(
         return ResponseEntity.created(uri).body(course.toResponse())
     }
 
+    @InstructorCanOnlyAccess
     @PutMapping("/{courseId}")
     fun updateCourse(
         @PathVariable courseId: UUID,
@@ -55,6 +61,7 @@ class CourseController(
         return courseService.update(courseId, coursePutRequest).toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @DeleteMapping("/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCourse(@PathVariable courseId: UUID) {

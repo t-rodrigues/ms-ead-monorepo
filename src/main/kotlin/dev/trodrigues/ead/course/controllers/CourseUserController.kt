@@ -6,6 +6,7 @@ import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.controllers.responses.UserResponse
 import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
+import dev.trodrigues.ead.course.security.authorizations.InstructorCanOnlyAccess
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.UserService
 import dev.trodrigues.ead.course.specifications.UserSpec
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
 
+@InstructorCanOnlyAccess
 @RestController
 @RequestMapping("/courses/{courseId}/users")
 @CrossOrigin(originPatterns = ["*"], maxAge = 3600)

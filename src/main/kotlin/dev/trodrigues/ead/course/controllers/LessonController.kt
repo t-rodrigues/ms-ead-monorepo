@@ -8,6 +8,8 @@ import dev.trodrigues.ead.course.controllers.responses.PageResponse
 import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.extension.toPageResponse
 import dev.trodrigues.ead.course.extension.toResponse
+import dev.trodrigues.ead.course.security.authorizations.InstructorCanOnlyAccess
+import dev.trodrigues.ead.course.security.authorizations.StudentCanOnlyAccess
 import dev.trodrigues.ead.course.services.LessonService
 import dev.trodrigues.ead.course.services.ModuleService
 import dev.trodrigues.ead.course.specifications.LessonSpec
@@ -20,6 +22,7 @@ import java.net.URI
 import java.util.*
 import javax.validation.Valid
 
+@InstructorCanOnlyAccess
 @RestController
 @RequestMapping("/modules/{moduleId}/lessons")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -28,6 +31,7 @@ class LessonController(
     private val moduleService: ModuleService
 ) {
 
+    @StudentCanOnlyAccess
     @GetMapping
     fun getLessonsByModule(
         @PathVariable moduleId: UUID,
@@ -38,6 +42,7 @@ class LessonController(
         return lessons.map { it.toResponse() }.toPageResponse()
     }
 
+    @StudentCanOnlyAccess
     @GetMapping("/{lessonId}")
     fun getLesson(
         @PathVariable moduleId: UUID,
@@ -47,6 +52,7 @@ class LessonController(
         return lesson.toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @PostMapping
     fun saveLesson(
         @PathVariable moduleId: UUID,
@@ -58,6 +64,7 @@ class LessonController(
         return ResponseEntity.created(uri).body(lesson.toResponse())
     }
 
+    @InstructorCanOnlyAccess
     @PutMapping("/{lessonId}")
     fun updateLesson(
         @PathVariable moduleId: UUID,
@@ -69,6 +76,7 @@ class LessonController(
         return updatedLesson.toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @DeleteMapping("/{lessonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteLesson(@PathVariable moduleId: UUID, @PathVariable lessonId: UUID) {

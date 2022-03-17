@@ -6,6 +6,8 @@ import dev.trodrigues.ead.course.controllers.requests.ModulePutRequest
 import dev.trodrigues.ead.course.controllers.responses.ModuleResponse
 import dev.trodrigues.ead.course.extension.toModel
 import dev.trodrigues.ead.course.extension.toResponse
+import dev.trodrigues.ead.course.security.authorizations.InstructorCanOnlyAccess
+import dev.trodrigues.ead.course.security.authorizations.StudentCanOnlyAccess
 import dev.trodrigues.ead.course.services.CourseService
 import dev.trodrigues.ead.course.services.ModuleService
 import dev.trodrigues.ead.course.specifications.ModuleSpec
@@ -26,6 +28,7 @@ class ModuleController(
     private val courseService: CourseService
 ) {
 
+    @StudentCanOnlyAccess
     @GetMapping
     fun getModules(
         @PathVariable courseId: UUID,
@@ -36,6 +39,7 @@ class ModuleController(
         return modules.map { it.toResponse() }
     }
 
+    @StudentCanOnlyAccess
     @GetMapping("/{moduleId}")
     fun getModule(
         @PathVariable courseId: UUID,
@@ -45,6 +49,7 @@ class ModuleController(
         return module.toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @PostMapping
     fun saveModule(
         @PathVariable courseId: UUID,
@@ -56,6 +61,7 @@ class ModuleController(
         return ResponseEntity.created(uri).body(module.toResponse())
     }
 
+    @InstructorCanOnlyAccess
     @PutMapping("/{moduleId}")
     fun updateModule(
         @PathVariable courseId: UUID,
@@ -67,6 +73,7 @@ class ModuleController(
         return updatedModule.toResponse()
     }
 
+    @InstructorCanOnlyAccess
     @DeleteMapping("/{moduleId}")
     fun deleteModule(@PathVariable courseId: UUID, @PathVariable moduleId: UUID) {
         moduleService.delete(courseId, moduleId)
