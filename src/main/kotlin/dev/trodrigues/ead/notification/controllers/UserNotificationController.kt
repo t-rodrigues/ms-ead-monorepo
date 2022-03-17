@@ -5,6 +5,7 @@ import dev.trodrigues.ead.notification.controllers.responses.NotificationRespons
 import dev.trodrigues.ead.notification.controllers.responses.PageResponse
 import dev.trodrigues.ead.notification.extension.toPageResponse
 import dev.trodrigues.ead.notification.extension.toResponse
+import dev.trodrigues.ead.notification.security.authorization.UserCanOnlyAccessTheirOwnResource
 import dev.trodrigues.ead.notification.services.NotificationService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -21,6 +22,7 @@ class UserNotificationController(
     private val notificationService: NotificationService
 ) {
 
+    @UserCanOnlyAccessTheirOwnResource
     @GetMapping
     fun getNotificationsByUser(
         @PathVariable userId: UUID,
@@ -35,6 +37,7 @@ class UserNotificationController(
         return notifications.map { it.toResponse() }.toPageResponse()
     }
 
+    @UserCanOnlyAccessTheirOwnResource
     @PatchMapping("/{notificationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateNotification(
