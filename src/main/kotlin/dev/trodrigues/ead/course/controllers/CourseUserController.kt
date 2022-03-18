@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
 
-@InstructorCanOnlyAccess
 @RestController
 @RequestMapping("/courses/{courseId}/users")
 @CrossOrigin(originPatterns = ["*"], maxAge = 3600)
