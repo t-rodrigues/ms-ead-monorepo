@@ -91,8 +91,11 @@ class UserServiceImpl(
     @Transactional
     override fun updateUserType(userId: UUID, userType: UserType): UserModel {
         val oldUser = findById(userId)
+        val role = RoleType.values().find { it.name.contains(userType.toString()) } ?: RoleType.ROLE_STUDENT
+        val roles = oldUser.roles + setOf(roleRepository.getByName(role))
         val updatedUser = oldUser.copy(
             userType = userType,
+            roles = roles,
             lastUpdatedDate = LocalDateTime.now(ZoneId.of("UTC"))
         )
         userRepository.save(updatedUser)
