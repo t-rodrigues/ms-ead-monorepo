@@ -1,0 +1,28 @@
+server:
+  port: ${PORT}
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GITHUB_URI}
+          default-label: main
+          username: ${GITHUB_USERNAME}
+          password: ${GITHUB_PASSWORD}
+
+ead:
+  config-server:
+    username: ${CONFIG_SERVER_USERNAME}
+    password: ${CONFIG_SERVER_PASSWORD}
+
+encrypt:
+  key: ${ENCRYPT_KEY}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+  instance:
+    hostname: ${APP_DOMAIN_NAME}
+    non-secure-port: 80
