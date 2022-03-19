@@ -1,0 +1,13 @@
+ead:
+  auth:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiresIn: ${JWT_EXPIRES_IN}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+  instance:
+    hostname: ${APP_DOMAIN_NAME}
+    non-secure-port: 80
