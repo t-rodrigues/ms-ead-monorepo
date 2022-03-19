@@ -1,18 +1,5 @@
-server:
-  port: 8761
-
 spring:
   application:
     name: ead-service-register
-
-ead:
-  service-registry:
-    username: ${SERVICE_REGISTRY_USERNAME}
-    password: ${SERVICE_REGISTRY_PASSWORD}
-
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: 'http://${ead.service-registry.username}:${ead.service-registry.password}@localhost:8761/eureka'
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
