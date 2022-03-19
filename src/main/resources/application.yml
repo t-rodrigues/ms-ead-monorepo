@@ -1,24 +1,5 @@
-server:
-  port: 8888
-
 spring:
   application:
     name: ead-config-server
-  cloud:
-    config:
-      server:
-        git:
-          uri: ${GITHUB_URI}
-          default-label: ${GITHUB_BRANCH}
-          username: ${GITHUB_USERNAME}
-          password: ${GITHUB_PASSWORD}
-
-ead:
-  config-server:
-    username: ${CONFIG_SERVER_USERNAME}
-    password: ${CONFIG_SERVER_PASSWORD}
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
